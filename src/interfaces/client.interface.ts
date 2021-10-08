@@ -1,6 +1,6 @@
-import {Document } from  'mongoose';
+import { Document, ObjectId } from 'mongoose';
 export interface ClientInterface extends  Document{
-    firtName: string;
+    firstName: string;
     lastName: string;
     password: string;
     email: string;
@@ -8,6 +8,8 @@ export interface ClientInterface extends  Document{
     status: boolean;
     imgUrl: string;
     verified:boolean;
-    code:string;
+    code:number;
+    _id:ObjectId;
+    dateCreate: Date;
 
   }

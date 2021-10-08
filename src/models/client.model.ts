@@ -42,8 +42,15 @@ const UserClient = new Schema({
 
       },
       code: {
-        type: String
-      }
+        type: Number
+      },
+      dateCreate: { type: Date, default: Date.now },
 });
+
+UserClient.methods.toJSON = function() {
+  const { __v, password,_id,dateCreate,code, ...client  } = this.toObject();
+  return client;
+}
+
 
 export default model<ClientInterface>('Client', UserClient);
