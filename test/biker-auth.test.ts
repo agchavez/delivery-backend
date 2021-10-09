@@ -1,36 +1,38 @@
 import supertest from 'supertest';
 
 
-import clientModel from '../src/models/client.model';
+import biker from '../src/models/biker.model';
 import Server from '../src/models/server.model';
 
 
 const server = new Server();
 const app = supertest(server.app);
-describe('Register client', () => {
-    test('register new successful client ', async() => {
-        await clientModel.deleteOne({"email":"test2@test.com"})
-        await app.post('/api/client/register')
+describe('Register biker', () => {
+    test('register new successful biker ', async() => {
+        await biker.deleteOne({"email":"test2@test.com"})
+        await app.post('/api/biker/register')
         .send({
             "email":"test2@test.com",
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123"
+            "password":"test123",
+            "identity":15465699
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
         });
 
-    test('register new error client ', async() => {
-        await app.post('/api/client/register')
+    test('register new error biker ', async() => {
+        await app.post('/api/biker/register')
         .send({
             "email":"test2@test.com",
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123"
+            "password":"test123",
+            "identity":15465699
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -38,9 +40,9 @@ describe('Register client', () => {
         });
     });
     
-describe('Login client', () => {
-    test('Login client verified email', async() => {
-            await app.get('/api/client/login')
+describe('Login biker', () => {
+    test('Login biker verified email', async() => {
+            await app.get('/api/biker/login')
             .send({
                 "email":"test@test.com",
                 "password":"test123"
@@ -50,8 +52,8 @@ describe('Login client', () => {
             .expect(400)
             });
 
-    test('Login client successful', async() => {
-        await app.get('/api/client/login')
+    test('Login biker successful', async() => {
+        await app.get('/api/biker/login')
         .send({
             "email":"atest@test.com",
             "password":"test123"

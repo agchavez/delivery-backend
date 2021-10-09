@@ -16,7 +16,14 @@ const UserClient = new Schema({
       },
       phone: {
         type: Number,
-        equired: [true, 'El numero de telefono es obligatorio']
+        validate: {
+          validator: function (v:number) {
+            console.log(/[398]{1}\d{7}$/g.test(v.toString()));
+            
+          return /[398]{1}\d{7}$/g.test(v.toString())
+        },
+        message: `El numero no es valido para la region!`},
+        required: [true, 'El numero de telefono es obligatorio']
       },
       email: {
         unique:true,
