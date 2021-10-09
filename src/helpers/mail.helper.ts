@@ -88,7 +88,7 @@ export const sendEmailVerified = async(client:ClientInterface)=>{
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Open Sans', sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <h2 style="font-size: 28px; font-weight: 400; margin: 2;">Hola, <b>${client.firstName}</b></h2> 
+                            <h2 style="font-size: 28px; font-weight: 400; margin: 2;">Hola, <b>${client.firstName.charAt(0).toUpperCase() + client.firstName.slice(1)}</b></h2> 
                             <p style="margin: 0;">Bienvenido a pidelow, este es tu código de verificación.</p>
                         </td>
                     </tr>

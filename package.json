@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Backend para pidelow ",
   "main": "app.js",
+  
   "scripts": {
-    "start": "node src/app.ts",
+    "start": "ts-node src/app.ts",
     "start:dev": "nodemon src/app.ts",
     "test": "jest --forceExit"
   },
@@ -28,7 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.6",
     "nodemailer": "^6.6.5",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "ts-node": "^2.0.12"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
