@@ -7,7 +7,7 @@ export const generateJWT =  async (uid:ObjectId)=>{
         const payload = {uid};
 
         JWT.sign(payload, process.env.JWT_KEY!, {
-            expiresIn:'4h'
+            expiresIn:'6h'
         }, (err, token) =>{
             if(err){
                 console.log(err);
