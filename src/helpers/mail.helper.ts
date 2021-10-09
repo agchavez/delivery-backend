@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import { ClientInterface } from '../interfaces/client.interface';
-export const sendEmailVerified = async(client:ClientInterface)=>{
+export const sendEmailVerified = async(name:string, email:string, code:number)=>{
     
 
   let transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ export const sendEmailVerified = async(client:ClientInterface)=>{
   await transporter.sendMail({
 
     from: '"Pidelow" <pidelow@gmail.com>',
-    to: client.email, // list of receivers
+    to: email, // list of receivers
     subject: "Verifica tu correo electronico", // Subject line
     html: `<!DOCTYPE html>
             <html lang="en">
@@ -69,7 +69,7 @@ export const sendEmailVerified = async(client:ClientInterface)=>{
             </head>
             <body>
             <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"></div>
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white;">
         
             <td bgcolor="#ffffff" align="center" style="padding: 0px 10px 0px 10px;">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
@@ -88,7 +88,7 @@ export const sendEmailVerified = async(client:ClientInterface)=>{
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Open Sans', sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <h2 style="font-size: 28px; font-weight: 400; margin: 2;">Hola, <b>${client.firstName.charAt(0).toUpperCase() + client.firstName.slice(1)}</b></h2> 
+                            <h2 style="font-size: 28px; font-weight: 400; margin: 2;">Hola, <b>${name.charAt(0).toUpperCase() + name.slice(1)}</b></h2> 
                             <p style="margin: 0;">Bienvenido a pidelow, este es tu código de verificación.</p>
                         </td>
                     </tr>
@@ -99,7 +99,7 @@ export const sendEmailVerified = async(client:ClientInterface)=>{
                                     <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                                         <table border="0" cellspacing="0" cellpadding="0">
                                             <tr>
-                                                <td align="center" style="border-radius: 3px;" bgcolor="#DB6D0B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">${client.code}</a></td>
+                                                <td align="center" style="border-radius: 3px;" bgcolor="#DB6D0B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">${code}</a></td>
                                             </tr>
                                         </table>
                                     </td>

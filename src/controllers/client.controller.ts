@@ -13,7 +13,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
     const passwordEncrip = bcryptjs.hashSync( password.toString(), salt );
     const code = Math.ceil(Math.random() * (99999 - 10000) + 10000);
     const client = new Client({...clientData, password: passwordEncrip, code:code});
-    sendEmailVerified(client);
+    sendEmailVerified(client.firstName, client.email, code);
     try {
         //Guardar el nuevo registro
         await client.save();
@@ -34,7 +34,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
 export const loginClient = async(req:Request, res:Response)=>{
     const {email, password } = req.body
     try {
-        const client =await Client.findOne({email});
+        const client = await Client.findOne({email});
         if (!client) {
             return res.status(400).json({
                 ok:false,
