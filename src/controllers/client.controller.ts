@@ -20,6 +20,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
 
         res.status(200).json({
             msj:true,
+            id:client._id,
             client
         });
     } catch (error) {

@@ -17,7 +17,14 @@ export const checkEmailExistByker =async(email:string)=>{
             throw new Error(`El correo: ${ email }, ya está registrado`);
     } 
 }
-
+export const checkBikerById = async (id:ObjectId)=>{
+    const bikerExist = await Biker.findById(id);
+    console.log(id);
+    
+    if(!bikerExist){
+        throw new Error(`El id no es valido`);
+    }
+}
 export const checkClientById = async (id:ObjectId)=>{
     const clientExist = await Client.findById(id);
     if(!clientExist){

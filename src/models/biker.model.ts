@@ -65,7 +65,7 @@ var UserBiker = new Schema({
     type: String
   },
   code: {
-    type: String
+    type: Number
   },
   dateCreate:{
       type: Date,
@@ -79,4 +79,4 @@ UserBiker.methods.toJSON = function() {
   }
   
   
-  export default model<BikerInterface>('Byker', UserBiker);
+  export default model<BikerInterface>('Biker', UserBiker);

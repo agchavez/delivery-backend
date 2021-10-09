@@ -2,9 +2,9 @@ import { Request, Response, Router } from "express";
 import { check } from "express-validator";
 
 import validator from "../middlewares/validator";
-import { checkEmailExistByker } from "../helpers/verified.helper";
+import { checkBikerById, checkEmailExistByker } from "../helpers/verified.helper";
 
-import { registerBiker } from "../controllers/biker.controller";
+import { registerBiker, checkBiker, loginBiker } from '../controllers/biker.controller';
 
 const router =  Router();
 router.post('/register',[
@@ -16,7 +16,19 @@ router.post('/register',[
     check('phone', 'El numero de telefono es requirida').notEmpty(),
     check('email').custom(checkEmailExistByker),
     validator,
-    
 ],registerBiker);
+
+router.get('/login',[
+    check('email', 'El correo electronico es requirido').isEmail(),
+    check('password', 'La contraseña es requirida').notEmpty(),
+    validator
+], loginBiker);
+
+router.put('/check/:id',[
+    check('id', "El id es obligatorio").isMongoId(),
+    check('code', 'El codigo es obligatorio').notEmpty(),
+    check('id').custom(checkBikerById),
+    validator,
+], checkBiker)
 
 export default router;
