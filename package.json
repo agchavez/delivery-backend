@@ -4,7 +4,7 @@
   "description": "Backend para pidelow ",
   "main": "app.js",
   "scripts": {
-    "start": "",
+    "start": "ts-node src/app.ts",
     "start:dev": "nodemon src/app.js",
     "test": "jest --forceExit"
   },
