@@ -22,6 +22,7 @@ export const  registerBiker = async (req:Request, res:Response)=>{
 
         res.status(200).json({
             msj:true,
+            id:biker._id,
             biker
         });
     } catch (error) {
