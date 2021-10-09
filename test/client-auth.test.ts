@@ -9,10 +9,10 @@ const server = new Server();
 const app = supertest(server.app);
 describe('Register client', () => {
     test('register new successful client ', async() => {
-        await clientModel.deleteOne({"email":"test@test.com"})
+        await clientModel.deleteOne({"email":"test2@test.com"})
         await app.post('/api/client/register')
         .send({
-            "email":"test@test.com",
+            "email":"test2@test.com",
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
@@ -26,7 +26,7 @@ describe('Register client', () => {
     test('register new error client ', async() => {
         await app.post('/api/client/register')
         .send({
-            "email":"test@test.com",
+            "email":"test2@test.com",
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
