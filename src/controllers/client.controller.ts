@@ -13,11 +13,12 @@ export const  registerClient = async (req:Request, res:Response)=>{
     const passwordEncrip = bcryptjs.hashSync( password.toString(), salt );
     const code = Math.ceil(Math.random() * (99999 - 10000) + 10000);
     const client = new Client({...clientData, password: passwordEncrip, code:code});
-    sendEmailVerified(client.firstName, client.email, code);
     try {
         //Guardar el nuevo registro
         await client.save();
-
+        
+        sendEmailVerified(client.firstName, client.email, code);
+        
         res.status(200).json({
             msj:true,
             id:client._id,
