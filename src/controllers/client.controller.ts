@@ -54,6 +54,12 @@ export const loginClient = async(req:Request, res:Response)=>{
                 msj:"La cuenta aun no ha sido verificada"
             })
         }
+        if(!client.status){
+            return res.status(400).json({
+                ok:false,
+                msj:"La cuenta ha sido eliminada"
+            })
+        }
         //Obtener token
         const token = await generateJWT(client._id);
         res.status(200).json({
