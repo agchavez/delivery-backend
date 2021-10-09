@@ -20,6 +20,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     env:
       DB_CNN: ${{ secrets.DB_CNN }}
+      PASSMAIL: ${{ secrets.PASSMAIL }}
       JWT_KEY: ${{ secrets.JWT_KEY }}
     steps:
     - uses: actions/checkout@v2

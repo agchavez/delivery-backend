@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/agchavez/delivery-backend#readme",
   "dependencies": {
+    "@types/nodemailer": "^6.4.4",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -29,7 +31,11 @@
     "ts-node": "^10.2.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
     "@types/jest": "^27.0.1",
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/supertest": "^2.0.11",
     "jest": "^27.2.0",
     "supertest": "^6.1.6",
