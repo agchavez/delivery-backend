@@ -53,7 +53,7 @@ describe('Login client', () => {
     test('Login client successful', async() => {
         await app.get('/api/client/login')
         .send({
-            "email":"angelchavez.325.ag@gmail.com",
+            "email":"test@test.com",
             "password":"test123"
         })
         .set('Accept', 'application/json')
