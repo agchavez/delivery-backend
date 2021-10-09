@@ -1,14 +1,16 @@
 import  express, {Application} from "express";
 import cors from "cors";
 
+import path from 'path';
 import clientRoute from '../routes/client.routes';
+import bikerRoute from '../routes/biker.routes';
 import { dbConection } from "../config/db.config";
 
 export default class Server{
     public app:Application;
     private port:string;
     private apiPath = {
-        byker: "/api/byker",
+        biker: "/api/biker",
         client: "/api/client",
     }
 
@@ -47,7 +49,11 @@ export default class Server{
 
     routes(){
         //Configuracion de rutas
+        this.app.get("/", function(req, res) {
+            res.sendFile(path.join(__dirname, '../public/index.html'));
+          });
         this.app.use(this.apiPath.client, clientRoute);
+        this.app.use(this.apiPath.biker, bikerRoute);
         
         
     }

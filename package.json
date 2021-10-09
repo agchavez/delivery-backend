@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Backend para pidelow ",
   "main": "app.js",
+  
   "scripts": {
     "start": "ts-node src/app.ts",
-    "start:dev": "nodemon src/app.js",
+    "start:dev": "nodemon src/app.ts",
     "test": "jest --forceExit"
   },
   "repository": {
@@ -27,6 +28,7 @@
     "express-validator": "^6.12.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.6",
+    "nodemailer": "^6.6.5",
     "nodemon": "^2.0.12",
     "ts-node": "^10.2.1"
   },

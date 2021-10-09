@@ -1,6 +1,7 @@
+import { ObjectId } from 'mongoose';
 
 import Client from '../models/client.model';
-import { ObjectId } from 'mongoose';
+import Biker from '../models/biker.model';
 
 
 export const checkEmailExist = async( email:string ) =>{
@@ -10,6 +11,20 @@ export const checkEmailExist = async( email:string ) =>{
     } 
 }
 
+export const checkEmailExistByker =async(email:string)=>{
+    const clientExist = await  Biker.findOne({email});
+    if (clientExist) {
+            throw new Error(`El correo: ${ email }, ya está registrado`);
+    } 
+}
+export const checkBikerById = async (id:ObjectId)=>{
+    const bikerExist = await Biker.findById(id);
+    console.log(id);
+    
+    if(!bikerExist){
+        throw new Error(`El id no es valido`);
+    }
+}
 export const checkClientById = async (id:ObjectId)=>{
     const clientExist = await Client.findById(id);
     if(!clientExist){
