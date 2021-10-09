@@ -24,11 +24,14 @@ var Schema = mongoose.Schema;
 var UserBiker = new Schema({
   firstName: {
     type: String,
-    required: [true, 'El nombre es obligatorio']
+    required: [true, 'El nombre es obligatorio'],
+    lowercase: true
+    
   },
   email: {
     type: String,
-    required: [true, 'El correo es obligatorio']
+    required: [true, 'El correo es obligatorio'],
+    lowercase: true
   },
   identity: {
     type: Number,
@@ -43,7 +46,8 @@ var UserBiker = new Schema({
   },
   password: {
     type: String,
-    required: [true, 'La contraseña es obligatoria']
+    required: [true, 'La contraseña es obligatoria'],
+    lowercase: true
   },
   lastName: {
     type: String,

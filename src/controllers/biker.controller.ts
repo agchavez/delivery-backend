@@ -38,7 +38,7 @@ export const  registerBiker = async (req:Request, res:Response)=>{
 export const loginBiker = async(req:Request, res:Response)=>{
     const {email, password } = req.body
     try {
-        const biker = await Biker.findOne({email});
+        const biker = await Biker.findOne({email:email.toLowerCase()});
         if (!biker) {
             return res.status(400).json({
                 ok:false,
@@ -56,6 +56,12 @@ export const loginBiker = async(req:Request, res:Response)=>{
             return res.status(400).json({
                 ok:false,
                 msj:"La cuenta aun no ha sido verificada"
+            })
+        }
+        if(!biker.validate){
+            return res.status(400).json({
+                ok:false,
+                msj:"La cuenta aun no ha sido validada"
             })
         }
         if(!biker.status){

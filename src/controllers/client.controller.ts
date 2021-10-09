@@ -35,7 +35,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
 export const loginClient = async(req:Request, res:Response)=>{
     const {email, password } = req.body
     try {
-        const client = await Client.findOne({email});
+        const client = await Client.findOne({email:email.toLowerCase()});
         if (!client) {
             return res.status(400).json({
                 ok:false,
