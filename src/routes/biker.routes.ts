@@ -1,10 +1,11 @@
 import { Request, Response, Router } from "express";
 import { check } from "express-validator";
 
-import validator from "../middlewares/validator";
+import { validator, verifyTokenClient, verifyTokenBiker } from '../middlewares/validator';
 import { checkBikerById, checkEmailExistByker } from "../helpers/verified.helper";
 
-import { registerBiker, checkBiker, loginBiker } from '../controllers/biker.controller';
+import { registerBiker, checkBiker, loginBiker, getAllBiker } from '../controllers/biker.controller';
+
 
 const router =  Router();
 router.post('/register',[
@@ -31,4 +32,13 @@ router.put('/check/:id',[
     validator,
 ], checkBiker)
 
+router.get('/all',[], getAllBiker)
+
+router.get('/validate',[
+    verifyTokenBiker
+],
+    (req:Request, res:Response)=>{
+        res.json({ok:true})
+    }
+)
 export default router;

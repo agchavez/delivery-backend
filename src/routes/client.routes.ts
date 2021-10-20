@@ -1,7 +1,7 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
-import validator from '../middlewares/validator';
-import { loginClient, registerClient, checkClient } from '../controllers/client.controller';
+import { validator, verifyTokenClient } from '../middlewares/validator';
+import { loginClient, registerClient, checkClient, getAllClient, getClientById } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById } from '../helpers/verified.helper';
 
 const router = Router();
@@ -29,5 +29,15 @@ router.put('/check/:id',[
     check('id').custom(checkClientById),
     validator,
 ], checkClient)
+
+router.get('/all',[
+    
+], getAllClient)
+
+router.get('/:id',[
+    check('id', "El id es obligatorio").isMongoId(),
+    check('id').custom(checkClientById),
+    validator,
+], getClientById)
 
 export default router;

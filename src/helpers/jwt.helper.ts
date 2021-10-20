@@ -1,5 +1,7 @@
 import JWT from 'jsonwebtoken';
 import { ObjectId } from 'mongoose';
+import { Request, Response} from 'express'
+import clientModel from '../models/client.model';
 
 export const generateJWT =  async (uid:ObjectId)=>{
     return new Promise((resolve, reject) => {
@@ -19,3 +21,4 @@ export const generateJWT =  async (uid:ObjectId)=>{
 
     })
 }
+

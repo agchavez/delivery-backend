@@ -55,7 +55,7 @@ const UserClient = new Schema({
 });
 
 UserClient.methods.toJSON = function() {
-  const { __v, password,_id,dateCreate,code, ...client  } = this.toObject();
+  const { __v, password,dateCreate,code, ...client  } = this.toObject();
   return client;
 }
 

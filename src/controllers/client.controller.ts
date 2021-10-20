@@ -78,6 +78,45 @@ export const loginClient = async(req:Request, res:Response)=>{
     }
 }
 
+//Obtener todos los usuarios
+export const getAllClient = async(req:Request, res:Response)=>{
+    const {limit= 5,offset = 1, verified} = req.query;    
+    console.log( Boolean(verified));
+    
+    const query = {state: true, verified: Boolean(verified)};
+    const clients = await Promise.all([
+        Client.find(query)
+                .skip(Number(offset))
+                .limit(Number(limit)),
+        Client.countDocuments(query)
+    ])
+    res.status(200).json({
+        ok:true,
+        clients
+    })
+
+}
+export const getClientById = async(req:Request, res:Response)=>{
+    const id = req.params.id;
+    const client = await Client.findById(id);
+    if (!client) {
+        return res.status(400).json({
+            ok:false,
+            msj:"Usuario no encontrado"
+        })
+    }
+    if(!client?.status){
+        return res.status(400).json({
+            ok:false,
+            msj:"Usuario eliminado"
+        })
+    }
+
+    res.status(200).json({
+        ok:true,
+        client
+    })
+}
 export const checkClient = async(req:Request, res:Response)=>{
     const {id} = req.params;
     const {code} = req.body;
