@@ -1,8 +1,8 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
 import { validator, verifyTokenClient } from '../middlewares/validator';
-import { loginClient, registerClient, checkClient, getAllClient, getClientById } from '../controllers/client.controller';
-import { checkEmailExist, checkClientById } from '../helpers/verified.helper';
+import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode } from '../controllers/client.controller';
+import { checkEmailExist, checkClientById, checkEmailNotExistByker } from '../helpers/verified.helper';
 
 const router = Router();
 
@@ -33,6 +33,27 @@ router.put('/check/:id',[
 router.get('/all',[
     
 ], getAllClient)
+
+router.post('/restore',[
+    check('email', 'El correo es obligatorio').isEmail(),
+    check('email').custom(checkEmailNotExistByker),
+    validator
+], postRestoreByEmail);
+
+router.put('/restore/:id',[
+    check('id', "El id es obligatorio").isMongoId(),
+    check('password', 'La contraseña es obligatoria').notEmpty(),
+    check('id').custom(checkClientById),
+    validator
+], putRestoreNewPassword);
+
+router.get('/check/restore/:id',[
+    check('id', "El id es obligatorio").isMongoId(),
+    check('code', 'El codigo es obligatorio').notEmpty(),
+    check('id').custom(checkClientById),
+    validator,
+], getRestoreCheckCode);
+
 
 router.get('/:id',[
     check('id', "El id es obligatorio").isMongoId(),

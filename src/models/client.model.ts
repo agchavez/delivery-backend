@@ -46,9 +46,11 @@ const UserClient = new Schema({
       verified: {
         type: Boolean,
         default: false
-
       },
       code: {
+        type: Number
+      },
+      codeRestore: {
         type: Number
       },
       dateCreate: { type: Date, default: Date.now },

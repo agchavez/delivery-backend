@@ -145,7 +145,82 @@ export const checkClient = async(req:Request, res:Response)=>{
             msj:"server error",
             error
         }) 
-    }
-    
+    } 
+}
 
+export const postRestoreByEmail = async (req:Request, res:Response)=>{
+    const {email} = req.body;
+    try {
+
+        //TODO: generar codigo de verificacion
+        
+        //TODO: Guardar codigo de verificacion
+    
+        //TODO: Enviar correo electronico
+
+        return res.status(200).json({
+            ok:true,
+            email
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+        
+    }
+}
+export const getRestoreCheckCode = async (req:Request, res:Response)=>{
+    const {code} = req.body;
+    const {id} = req.params;
+
+    try {
+
+        //TODO: obtener usuario por id
+        
+        //TODO: verificar los codigos
+    
+        //TODO: eliminar codigo
+
+        return res.status(200).json({
+            ok:true,
+            //user
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+        
+    }
+}
+export const putRestoreNewPassword = async (req:Request, res:Response)=>{
+    const {password} = req.body;
+    const {id} = req.params;
+
+    try {
+
+        //TODO: obtener usuario por id
+        
+        //TODO: encriptar contraseña
+    
+        //TODO: actualizar cambios 
+
+        return res.status(200).json({
+            ok:true,
+            //user
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+        
+    }
 }
