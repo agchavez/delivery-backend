@@ -1,6 +1,6 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
-import { validator, verifyTokenClient } from '../middlewares/validator';
+import { validator, verifyTokenClient, verifyTokenAdmmin } from '../middlewares/validator';
 import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById, checkEmailNotExistByker } from '../helpers/verified.helper';
 
@@ -31,7 +31,7 @@ router.put('/check/:id',[
 ], checkClient)
 
 router.get('/all',[
-    
+    verifyTokenAdmmin
 ], getAllClient)
 
 router.post('/restore',[
@@ -55,10 +55,14 @@ router.get('/check/restore/:id',[
 ], getRestoreCheckCode);
 
 //TODO: Eliminar usuario cliente
-router.delete('/delete/:id',[],()=>{})
+router.delete('/delete/:id',[
+    verifyTokenAdmmin
+],()=>{})
 
 //TODO: Actualizar usuario cliente
-router.put('/update/:id',[],()=>{})
+router.put('/update/:id',[
+    verifyTokenClient
+],()=>{})
 
 router.get('/by/:id',[
     check('id', "El id es obligatorio").isMongoId(),
