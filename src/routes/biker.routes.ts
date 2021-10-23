@@ -30,15 +30,22 @@ router.put('/check/:id',[
     check('code', 'El codigo es obligatorio').notEmpty(),
     check('id').custom(checkBikerById),
     validator,
-], checkBiker)
+], checkBiker);
 
-router.get('/all',[], getAllBiker)
+//TODO: Obtener todo los usuarios motorista
+router.get('/all', [], ()=>{});
 
-router.get('/validate',[
-    verifyTokenBiker
-],
-    (req:Request, res:Response)=>{
-        res.json({ok:true})
-    }
-)
+//TODO: Obtener unuario motorista por id
+router.get('/by/:id', [], ()=>{});
+
+router.get('/all',[], getAllBiker);
+
+//TODO: Eliminar usuario motorista
+router.delete('/delete/:id',[],()=>{})
+
+//TODO: Actualizar usuario motorista
+router.put('/update/:id',[],()=>{})
+
+
+router.get('/validate',verifyTokenBiker);
 export default router;

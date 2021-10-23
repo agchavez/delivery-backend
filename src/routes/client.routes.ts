@@ -1,7 +1,7 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
 import { validator, verifyTokenClient } from '../middlewares/validator';
-import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode } from '../controllers/client.controller';
+import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById, checkEmailNotExistByker } from '../helpers/verified.helper';
 
 const router = Router();
@@ -54,11 +54,19 @@ router.get('/check/restore/:id',[
     validator,
 ], getRestoreCheckCode);
 
+//TODO: Eliminar usuario cliente
+router.delete('/delete/:id',[],()=>{})
 
-router.get('/:id',[
+//TODO: Actualizar usuario cliente
+router.put('/update/:id',[],()=>{})
+
+router.get('/by/:id',[
     check('id', "El id es obligatorio").isMongoId(),
     check('id').custom(checkClientById),
     validator,
-], getClientById)
+], getClientById);
+
+
+router.get('/validate',[verifyTokenClient], verified);
 
 export default router;

@@ -12,7 +12,7 @@ export const validator = ( req:Request, res:Response,next:any)=>{
     next();
 }
 
-export const verifyTokenClient = async (req:Request, res:Response)=>{
+export const verifyTokenClient = async (req:Request, res:Response, next:Function)=>{
     const token:string = req.header('x-token') || "";
     if (!token) {
         return res.status(401).json({
@@ -41,6 +41,7 @@ export const verifyTokenClient = async (req:Request, res:Response)=>{
             msg:"Token no valido"
         });
     }
+    next();
 }
 export const verifyTokenAdmmin =  async (req:Request, res:Response, next:Function)=>{
     const token:string = req.header('x-token') || "";

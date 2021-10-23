@@ -224,3 +224,11 @@ export const putRestoreNewPassword = async (req:Request, res:Response)=>{
         
     }
 }
+
+export const verified = async (req:Request, res:Response)=>{
+
+    //Actualizar el token del usuario
+    res.status(200).json({
+        ok:true
+    })
+}
