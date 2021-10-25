@@ -46,16 +46,18 @@ const UserClient = new Schema({
       verified: {
         type: Boolean,
         default: false
-
       },
       code: {
+        type: Number
+      },
+      codeRestore: {
         type: Number
       },
       dateCreate: { type: Date, default: Date.now },
 });
 
 UserClient.methods.toJSON = function() {
-  const { __v, password,_id,dateCreate,code, ...client  } = this.toObject();
+  const { __v, password,dateCreate,code, ...client  } = this.toObject();
   return client;
 }
 

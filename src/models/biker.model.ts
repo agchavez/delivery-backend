@@ -1,5 +1,5 @@
 import { model, ObjectId } from "mongoose";
-import { Document } from "mongoose";
+import mongoose from "mongoose";
 
 export interface BikerInterface extends Document{
     firstName:string;
@@ -19,9 +19,8 @@ export interface BikerInterface extends Document{
 }
 
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var UserBiker = new Schema({
+const Schema = mongoose.Schema;
+const UserBiker = new Schema({
   firstName: {
     type: String,
     required: [true, 'El nombre es obligatorio'],

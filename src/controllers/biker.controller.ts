@@ -116,3 +116,20 @@ export const checkBiker = async(req:Request, res:Response)=>{
         }) 
     }
 }
+
+export const getAllBiker = async(req:Request, res:Response)=>{
+    const {limit= 5,offset = 1 } = req.query;
+    console.log(limit);
+    
+    const query = {state: true};
+    const bikers = await Promise.all([
+        Biker.find(query)
+                .skip(Number(offset))
+                .limit(Number(limit)),
+        Biker.countDocuments(query)
+    ])
+    res.status(200).json({
+        ok:true,
+        bikers
+    })
+}

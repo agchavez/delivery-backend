@@ -1,10 +1,11 @@
 import { Request, Response, Router } from "express";
 import { check } from "express-validator";
 
-import validator from "../middlewares/validator";
+import { validator, verifyTokenClient, verifyTokenBiker } from '../middlewares/validator';
 import { checkBikerById, checkEmailExistByker } from "../helpers/verified.helper";
 
-import { registerBiker, checkBiker, loginBiker } from '../controllers/biker.controller';
+import { registerBiker, checkBiker, loginBiker, getAllBiker } from '../controllers/biker.controller';
+
 
 const router =  Router();
 router.post('/register',[
@@ -29,6 +30,22 @@ router.put('/check/:id',[
     check('code', 'El codigo es obligatorio').notEmpty(),
     check('id').custom(checkBikerById),
     validator,
-], checkBiker)
+], checkBiker);
 
+//TODO: Obtener todo los usuarios motorista
+router.get('/all', [], ()=>{});
+
+//TODO: Obtener unuario motorista por id
+router.get('/by/:id', [], ()=>{});
+
+router.get('/all',[], getAllBiker);
+
+//TODO: Eliminar usuario motorista
+router.delete('/delete/:id',[],()=>{})
+
+//TODO: Actualizar usuario motorista
+router.put('/update/:id',[],()=>{})
+
+
+router.get('/validate',verifyTokenBiker);
 export default router;
