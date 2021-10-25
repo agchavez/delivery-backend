@@ -2,11 +2,11 @@ import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
 import { validator, verifyTokenClient, verifyTokenAdmmin } from '../middlewares/validator';
 import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified } from '../controllers/client.controller';
-import { checkEmailExist, checkClientById, checkEmailNotExistByker } from '../helpers/verified.helper';
+import { checkEmailExist, checkClientById, checkEmailNotExistByker, checkNotEmailExistClient } from '../helpers/verified.helper';
 
 const router = Router();
 
-router.get('/login',[
+router.post('/login',[
     check('email', 'El correo electronico es requirido').isEmail(),
     check('password', 'La contraseña es requirida').notEmpty(),
     validator
@@ -23,10 +23,10 @@ router.post('/register',[
     
 ], registerClient);
 
-router.put('/check/:id',[
-    check('id', "El id es obligatorio").isMongoId(),
+router.put('/check/code',[
+    check('email', "El correo es obligatorio").isEmail(),
     check('code', 'El codigo es obligatorio').notEmpty(),
-    check('id').custom(checkClientById),
+    check('email').custom(checkNotEmailExistClient),
     validator,
 ], checkClient)
 

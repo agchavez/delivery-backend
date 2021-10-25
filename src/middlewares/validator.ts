@@ -24,14 +24,15 @@ export const verifyTokenClient = async (req:Request, res:Response, next:Function
         const {uid}:any = JWT.verify(token, process.env.JWT_KEY!);
         req.body.uid = uid;
         const user = await clientModel.findById(uid);
+                            
         if(!user){
-            res.status(400).json({
+            res.status(401).json({
                 ok:false,
                 msj:"El token no es valido"
             })
         }
-        if(user?.status){
-            res.status(400).json({
+        if(!user?.status){
+            res.status(401).json({
                 ok:false,
                 msj:"El token no es valido - usuario eliminado"
             })

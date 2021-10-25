@@ -12,7 +12,6 @@ export const generateJWT =  async (uid:ObjectId)=>{
             expiresIn:'6h'
         }, (err, token) =>{
             if(err){
-                console.log(err);
                 reject('Error al generar el jwt')
             }else{
                 resolve(token)
