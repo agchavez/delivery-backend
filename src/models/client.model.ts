@@ -18,7 +18,6 @@ const UserClient = new Schema({
         type: Number,
         validate: {
           validator: function (v:number) {
-            console.log(/[398]{1}\d{7}$/g.test(v.toString()));
             
           return /[398]{1}\d{7}$/g.test(v.toString())
         },
