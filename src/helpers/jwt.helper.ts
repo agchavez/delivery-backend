@@ -1,5 +1,7 @@
 import JWT from 'jsonwebtoken';
 import { ObjectId } from 'mongoose';
+import { Request, Response} from 'express'
+import clientModel from '../models/client.model';
 
 export const generateJWT =  async (uid:ObjectId)=>{
     return new Promise((resolve, reject) => {
@@ -7,10 +9,9 @@ export const generateJWT =  async (uid:ObjectId)=>{
         const payload = {uid};
 
         JWT.sign(payload, process.env.JWT_KEY!, {
-            expiresIn:'4h'
+            expiresIn:'6h'
         }, (err, token) =>{
             if(err){
-                console.log(err);
                 reject('Error al generar el jwt')
             }else{
                 resolve(token)
@@ -19,3 +20,4 @@ export const generateJWT =  async (uid:ObjectId)=>{
 
     })
 }
+
