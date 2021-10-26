@@ -18,7 +18,6 @@ const UserClient = new Schema({
         type: Number,
         validate: {
           validator: function (v:number) {
-            console.log(/[398]{1}\d{7}$/g.test(v.toString()));
             
           return /[398]{1}\d{7}$/g.test(v.toString())
         },
@@ -46,16 +45,18 @@ const UserClient = new Schema({
       verified: {
         type: Boolean,
         default: false
-
       },
       code: {
+        type: Number
+      },
+      codeRestore: {
         type: Number
       },
       dateCreate: { type: Date, default: Date.now },
 });
 
 UserClient.methods.toJSON = function() {
-  const { __v, password,_id,dateCreate,code, ...client  } = this.toObject();
+  const { __v, password,dateCreate,code, ...client  } = this.toObject();
   return client;
 }
 
