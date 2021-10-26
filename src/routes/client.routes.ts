@@ -1,7 +1,7 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
 import { validator, verifyTokenClient, verifyTokenAdmmin } from '../middlewares/validator';
-import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified } from '../controllers/client.controller';
+import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified, postComment } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById, checkEmailNotExistByker, checkNotEmailExistClient } from '../helpers/verified.helper';
 
 const router = Router();
@@ -69,6 +69,14 @@ router.get('/by/:id',[
     check('id').custom(checkClientById),
     validator,
 ], getClientById);
+
+router.post('/comment', [
+    check('firstName', 'El primer nombre es requerido').notEmpty(),
+    check('lastName', 'El segundo nombre es requerido').notEmpty(),
+    check('email', 'El correo es requerido').isEmail(),
+    check('msj', 'El comentario es requerido').notEmpty(),
+    validator
+], postComment)
 
 
 router.get('/validate',[verifyTokenClient], verified);
