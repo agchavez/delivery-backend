@@ -40,7 +40,7 @@ describe('Register client', () => {
     
 describe('Login client', () => {
     test('Login client verified email', async() => {
-            await app.get('/api/client/login')
+            await app.post('/api/client/login')
             .send({
                 "email":"test@test.com",
                 "password":"test123"
@@ -51,7 +51,7 @@ describe('Login client', () => {
             });
 
     test('Login client successful', async() => {
-        await app.get('/api/client/login')
+        await app.post('/api/client/login')
         .send({
             "email":"atest@test.com",
             "password":"test123"
@@ -60,5 +60,5 @@ describe('Login client', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         });
-        });
+});
     

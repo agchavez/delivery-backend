@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import Client from '../models/client.model';
+import Comment from '../models/commentMsj.model';
 import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import { sendEmailVerified } from '../helpers/mail.helper';
@@ -147,6 +148,34 @@ export const checkClient = async(req:Request, res:Response)=>{
             error
         }) 
     } 
+}
+
+export const postComment = async (req:Request, res:Response)=>{
+    const {email, firstName, lastName, msj} = req.body;
+    const newMsj = {
+        email, firstName, lastName, msj
+    }
+    try {
+        const menssage = new Comment(newMsj);
+        await menssage.save();
+        if (menssage) {
+            return res.status(200).json({
+               ok:true,
+               msj:"Mensaje enviado con exito"
+           }) 
+            
+        }
+        
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+
+    }
+   
+
 }
 
 export const postRestoreByEmail = async (req:Request, res:Response)=>{
