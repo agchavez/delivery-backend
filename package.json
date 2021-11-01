@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Backend para pidelow ",
   "main": "app.js",
-  
   "scripts": {
     "start": "ts-node src/app.ts",
     "start:dev": "nodemon src/app.ts",
