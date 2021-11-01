@@ -6,6 +6,53 @@ import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 
 
+//Login admin
+export const loginAdmin = async(req:Request, res:Response)=>{
+    const {email, password } = req.body
+    try {
+        const admin = await Admin.findOne({email:email.toLowerCase()});
+        if (!admin) {
+            return res.status(400).json({
+                ok:false,
+                msj:`El correo ${email}, no esta registrado`
+            });
+        }
+        //Verificar si la contraseña coincide
+        const validPassword = bcryptjs.compareSync(password, admin.password);
+        if(!validPassword){
+            return res.status(400).json({
+                ok:false,
+                msg:"La contraseña es incorrecta"
+            })
+        }
+        if(!admin.status){
+            return res.status(400).json({
+                ok:false,
+                msj:"La cuenta ha sido eliminada"
+            })
+        }
+        //Obtener token
+        const token = await generateJWT(admin._id);
+        res.status(200).json({
+            ok:true,
+            msj: "ok",
+            admin,
+            token
+        }) 
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })  
+    }
+}
+
+
+
+
+
+//Registrar nuevo admin
 export const  registerAdmin= async (req:Request, res:Response)=>{
     const {password, ...adminData} = req.body;
     

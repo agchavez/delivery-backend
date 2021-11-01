@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { verifyTokenClient, validator, verifyTokenAdmmin } from '../middlewares/validator';
-import { getAllAdmin, registerAdmin } from '../controllers/admin.controller';
+import { getAllAdmin, registerAdmin, loginAdmin } from '../controllers/admin.controller';
+import { checkEmailExistAdmin } from '../helpers/verified.helper';
 
 
 const router = Router();
@@ -11,7 +12,7 @@ router.get('/login', [
     check('email', 'El correo es requerido').isEmail(),
     check('password', 'La contraseña es requerida').notEmpty(),
     validator
-], ()=>{});
+], loginAdmin);
 
 //Obtener todo los usuarios administradores
 router.get('/all', [
@@ -37,6 +38,7 @@ router.post('/register', [
     check('lastName', 'El segundo nombre es requerido').notEmpty(),
     check('email', 'La contraseña es requerido').notEmpty(),
     check('phone', 'El telefono es requerido').notEmpty(),
+    check('email').custom(checkEmailExistAdmin),
     validator
 ],
 registerAdmin
