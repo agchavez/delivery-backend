@@ -28,7 +28,7 @@ export const  registerBiker = async (req:Request, res:Response)=>{
     } catch (error) {
         res.status(500).json({
             ok:false,
-            msj:"Error al registrar cliente",
+            msj:"Error al registrar biker",
             error
         })       
     }   
@@ -118,7 +118,7 @@ export const checkBiker = async(req:Request, res:Response)=>{
 }
 
 export const getAllBiker = async(req:Request, res:Response)=>{
-    const {limit= 5,offset = 1 } = req.query;
+    const {limit= 5,offset = 1, } = req.query;
     console.log(limit);
     
     const query = {state: true};
@@ -128,8 +128,19 @@ export const getAllBiker = async(req:Request, res:Response)=>{
                 .limit(Number(limit)),
         Biker.countDocuments(query)
     ])
-    res.status(200).json({
-        ok:true,
-        bikers
-    })
+    try{
+        res.status(200).json({
+            ok:true,
+            bikers
+        })
+    }
+
+    catch (error){
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+    }
+    
 }

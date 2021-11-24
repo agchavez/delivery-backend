@@ -5,6 +5,7 @@ import path from 'path';
 import clientRoute from '../routes/client.routes';
 import bikerRoute from '../routes/biker.routes';
 import adminRoute from '../routes/admin.routes';
+import categoryRoute from '../routes/category.routes'
 
 
 import { dbConection } from "../config/db.config";
@@ -16,6 +17,7 @@ export default class Server{
         biker: "/api/biker",
         client: "/api/client",
         admin: "/api/admin",
+        category:"/api/category"
     }
 
     constructor(){
@@ -59,7 +61,6 @@ export default class Server{
         this.app.use(this.apiPath.client, clientRoute);
         this.app.use(this.apiPath.biker, bikerRoute);
         this.app.use(this.apiPath.admin, adminRoute);
-        
-        
+        this.app.use(this.apiPath.category, categoryRoute);     
     }
 }

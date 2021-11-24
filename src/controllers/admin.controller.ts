@@ -48,10 +48,6 @@ export const loginAdmin = async(req:Request, res:Response)=>{
     }
 }
 
-
-
-
-
 //Registrar nuevo admin
 export const  registerAdmin= async (req:Request, res:Response)=>{
     const {password, ...adminData} = req.body;
@@ -88,9 +84,18 @@ export const getAllAdmin = async(req:Request, res:Response)=>{
                 .limit(Number(limit)),
         Admin.countDocuments(query)
     ])
-    res.status(200).json({
+    try{
+    res.status(400).json({
         ok:true,
         admins
     })
+}
+    catch (error){
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+    }
 
 }
