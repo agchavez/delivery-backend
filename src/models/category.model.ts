@@ -1,4 +1,4 @@
-import { model, ObjectId } from "mongoose";
+import { model, ObjectId} from "mongoose";
 import mongoose from "mongoose";
 import { CategoryInterface } from "../interfaces/category.interface";
 
@@ -13,11 +13,15 @@ const CategoryData = new Schema({
   imgUrl: {
     type: String,
     required: [true, 'El correo es obligatorio']
-  }
+  },
+  companies:[
+   {type: Schema.Types.ObjectId, ref: 'Company'}
+  ]
+  
 });
 
 CategoryData.methods.toJSON = function() {
-    const {__v,_id, ...category  } = this.toObject();
+    const {__v, ...category  } = this.toObject();
     return category;
   }
   
