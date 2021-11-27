@@ -12,6 +12,7 @@ import bcryptjs from 'bcryptjs';
 
 //obtener productos de empresa
 export const getProductByCompany = async(req:Request,res:Response)=>{
+   // const products =  await Product.find({},{"company":req.params.idCompany}).populate({path:'category',model:'Category'}).populate({path:'company',model:'Company'})
     const products = await  Product.aggregate([
 
         {
@@ -28,25 +29,17 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
                 company: new ObjectId(req.params.idCompany),
             }
         },
-        // {
-        //     $group: { 
-        //         "cat._id": "$a", 
-        //     },
-        //     $sort:{a:1}
-        // },
         {
-            $project: {
-                name:true,
-                describe:true,
-                price:true,
-                imgUrl:true,
-                "cat._id": true,
-                "cat.name": true
-
-
-            }
-
-        }
+            $group: { 
+                _id: {$first:"$cat.name"},
+                productos:{$push:{
+                    name:"$name",
+                    price:"$price",
+                    describe:"$describe",
+                    imgUrl:"$imgUrl"
+                }} 
+            },
+        },
     ])
     try{
             res.status(200).json({
@@ -91,17 +84,17 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
                 category: new ObjectId(req.params.idCat),
             }
         },
+        
         {
-            $project: {
-                "comp._id": true,
-                "comp.name": true,
-                "comp.imgUrl": true,
-                "cate.name":true
-
-
-            }
-
-        }
+            $group: { 
+                _id: {$first:"$cate.name"},
+                empresas:{$push:{
+                    id:{$first:"$comp._id"},
+                    name:{$first:"$comp.name"},
+                    imgUrl:{$first:"$comp.imgUrl"},
+                }} 
+            },
+        },
     ])
     try{
             res.status(200).json({
