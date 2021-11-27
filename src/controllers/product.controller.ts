@@ -81,7 +81,7 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
         },
         {
             $match: {
-                category: new ObjectId(req.params.idCat),
+                category: req.params.idCat,
             }
         },
         
