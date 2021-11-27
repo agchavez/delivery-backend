@@ -9,6 +9,7 @@ import { ObjectId } from 'bson';
 
 import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
+import mongoose from 'mongoose';
 
 //obtener productos de empresa
 export const getProductByCompany = async(req:Request,res:Response)=>{
@@ -32,6 +33,8 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
         {
             $group: { 
                 _id: {$first:"$cat.name"},
+                idCat:{$first:"$cat._id"},
+
                 productos:{$push:{
                     name:"$name",
                     price:"$price",
@@ -57,9 +60,59 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
 
             }}
 
+
+            //obtener productos de una empresa y una categoria
+
+export const getProductByCat = async(req:Request,res:Response)=>{
+    // const products =  await Product.find({},{"company":req.params.idCompany}).populate({path:'category',model:'Category'}).populate({path:'company',model:'Company'})
+     const products = await  Product.aggregate([
+ 
+         {
+             $lookup: {
+                 from: "categories",
+                 localField: "category",
+                 foreignField: "_id",
+                 as: "cat"
+             },
+ 
+         },
+         {
+             $match: {
+                 company: new ObjectId(req.params.idCompany),
+                 category:new ObjectId(req.params.idCate)
+             }
+         },
+         {
+             $group: { 
+                 _id: {$first:"$cat.name"},
+                 productos:{$push:{
+                     name:"$name",
+                     price:"$price",
+                     describe:"$describe",
+                     imgUrl:"$imgUrl"
+                 }} 
+             },
+         },
+        
+     ])
+     try{
+             res.status(200).json({
+                 ok:true,
+                 products
+                
+             }) 
+         }
+             catch (error){
+                 res.status(500).json({
+                     ok:false,
+                     msj:"server error",
+                     error
+                 }) 
+ 
+             }}
 //obtener empresas de una categoria
 export const getCompanyByCat= async(req:Request,res:Response)=>{
-    const companies = await  Product.aggregate([
+    const companies = await Product.aggregate([
 
         {
             $lookup: {
@@ -81,14 +134,13 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
         },
         {
             $match: {
-                category: req.params.idCat,
+                category: new ObjectId(req.params.idCat),
             }
         },
-        
         {
             $group: { 
                 _id: {$first:"$cate.name"},
-                empresas:{$push:{
+                empresas:{$addToSet:{
                     id:{$first:"$comp._id"},
                     name:{$first:"$comp.name"},
                     imgUrl:{$first:"$comp.imgUrl"},
