@@ -1,6 +1,8 @@
 import  express, {Application} from "express";
+import fileUpload, { UploadedFile  } from "express-fileupload";
 import cors from "cors";
 import path from 'path';
+
 
 import clientRoute from '../routes/client.routes';
 import bikerRoute from '../routes/biker.routes';
@@ -39,6 +41,11 @@ export default class Server{
         this.app.use(cors());
 
         this.app.use(express.json());
+
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir:'/tmp/',
+          }));
 
         //Rutas publicas
         this.app.use(express.static('public'));
