@@ -64,15 +64,13 @@ export const loginBiker = async(req:Request, res:Response)=>{
                 msj:"La cuenta aun no ha sido verificada"
             })
         }
-        const token = await generateJWT(biker._id);
         
         if( biker.info.imgCard === undefined || biker.info.imgLicense === undefined){
             return res.status(400).json({
                 ok:false,
                 verified: true,
                 msj:"Falta informacion",
-                token
-
+                
             })
         }
         if(!biker.aproved){
@@ -81,7 +79,6 @@ export const loginBiker = async(req:Request, res:Response)=>{
                 verified: true,
                 aproved: false,
                 msj:"La cuenta aun no ha sido validada",
-                token
             })
         }
         if(!biker.status){
@@ -91,6 +88,7 @@ export const loginBiker = async(req:Request, res:Response)=>{
             })
         }
         //Obtener token
+        const token = await generateJWT(biker._id);
         res.status(200).json({
             ok: true,
             biker,
@@ -149,7 +147,63 @@ export const putInfoImg = async(req:Request, res:Response)=>{
         })
     }
 }
+//TODO: Aprobar la cuenta del motorista, con su id
+export const aproveBiker = async(req:Request, res:Response)=>{
+    const {id} = req.params;
+    try {
+        const biker = await Biker.findByIdAndUpdate(id, {aproved:true});
+        if(!biker){
+            return res.status(400).json({
+                ok:false,
+                msj:"El motorista no existe"
+            })
+        }
+        return res.status(200).json({
+            ok:true,
+            msg:"Motorista aprobado"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })
+    }
+}
+export const isAproved = async(req:Request, res:Response)=>{
+    const {email} = req.body;
 
+    try {
+        //Eviar nombre del motorista 
+
+        const biker = await Biker.findOne({email:email.toLowerCase()});
+        if(!biker){
+            return res.status(400).json({
+                ok:false,
+                msj:"El usuario no existe"
+            })
+        }
+        if(biker.aproved){
+            return res.status(200).json({
+                ok:true,
+                biker, 
+                msj:"La cuenta ya ha sido validada"
+            })
+        }
+        res.status(400).json({
+            ok:false,
+            msj:"La cuenta aun no ha sido validada"
+        })
+
+
+    }catch(error){
+        return res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })
+    }
+}
 export const checkBiker = async(req:Request, res:Response)=>{
     const {email} = req.body;
     const {code} = req.body;
@@ -202,7 +256,9 @@ export const getAllBiker = async(req:Request, res:Response)=>{
 export const getBiker = async(req:Request, res:Response)=>{
     const {uid} = req.body;
     try {
-        const biker = await Biker.findById(uid);
+        const biker = await Biker.findById(uid, {
+            info:0, status:0, aproved:0, verified:0
+        });
     if(!biker){
         return res.status(400).json({
             ok:false,

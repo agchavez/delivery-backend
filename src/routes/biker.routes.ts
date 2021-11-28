@@ -4,7 +4,7 @@ import { check } from "express-validator";
 import { validator, verifyTokenClient, verifyTokenBiker, verifyImage } from '../middlewares/validator';
 import { checkBikerById, checkEmailExistByker, checkEmailNotExistByker } from '../helpers/verified.helper';
 
-import { registerBiker, checkBiker, loginBiker, getAllBiker, putInfoImg, getBiker } from '../controllers/biker.controller';
+import { registerBiker, checkBiker, loginBiker, getAllBiker, putInfoImg, getBiker, isAproved, aproveBiker } from '../controllers/biker.controller';
 
 
 const router =  Router();
@@ -53,6 +53,21 @@ router.delete('/delete/:id',[],()=>{})
 //TODO: Actualizar usuario motorista
 router.put('/update/:id',[],()=>{})
 
+//TODO: Validar cuenta de motorista por el di 
+router.put('/aproved/:id',[
+    check('id', 'El id es requerido').isMongoId(),
+    check('id').custom(checkBikerById),
+    validator
+],aproveBiker)
 
-router.get('/validate',[verifyTokenBiker], getBiker);
+//TODO: Comporobar si la cuenta esta aprobada
+router.post('/isAproved',[
+    check('email', "El correo es obligatorio").isEmail(),
+    
+    validator,
+],isAproved)
+
+router.get('/validate',[
+    verifyTokenBiker
+], getBiker);
 export default router;
