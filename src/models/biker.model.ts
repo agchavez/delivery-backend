@@ -93,5 +93,4 @@ UserBiker.methods.toJSON = function() {
     return biker;
   }
   
-  
-  export default model<BikerInterface>('Biker', UserBiker);
+export default model<BikerInterface>('Biker', UserBiker);

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import Client from '../models/client.model';
 import Comment from '../models/commentMsj.model';
 import { generateJWT } from '../helpers/jwt.helper';
