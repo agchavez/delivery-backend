@@ -1,10 +1,10 @@
 import { Request, Response, Router } from "express";
 import { check } from "express-validator";
 
-import { validator, verifyTokenClient, verifyTokenBiker } from '../middlewares/validator';
-import { checkBikerById, checkEmailExistByker } from "../helpers/verified.helper";
+import { validator, verifyTokenClient, verifyTokenBiker, verifyImage } from '../middlewares/validator';
+import { checkBikerById, checkEmailExistByker, checkEmailNotExistByker } from '../helpers/verified.helper';
 
-import { registerBiker, checkBiker, loginBiker, getAllBiker } from '../controllers/biker.controller';
+import { registerBiker, checkBiker, loginBiker, getAllBiker, putInfoImg, getBiker } from '../controllers/biker.controller';
 
 
 const router =  Router();
@@ -19,18 +19,25 @@ router.post('/register',[
     validator,
 ],registerBiker);
 
-router.get('/login',[
+router.post('/login',[
     check('email', 'El correo electronico es requirido').isEmail(),
     check('password', 'La contraseña es requirida').notEmpty(),
     validator
 ], loginBiker);
 
-router.put('/check/:id',[
-    check('id', "El id es obligatorio").isMongoId(),
+router.put('/check',[
+    check('email', "El correo es obligatorio").isEmail(),
     check('code', 'El codigo es obligatorio').notEmpty(),
-    check('id').custom(checkBikerById),
+    check('email').custom(checkEmailNotExistByker),
     validator,
 ], checkBiker);
+
+router.put('/info',[
+    check('email', "El correo es obligatorio").isEmail(),
+    verifyImage,
+    check('email').custom(checkEmailNotExistByker),
+    validator
+], putInfoImg)
 
 //TODO: Obtener todo los usuarios motorista
 router.get('/all', [], ()=>{});
@@ -47,5 +54,5 @@ router.delete('/delete/:id',[],()=>{})
 router.put('/update/:id',[],()=>{})
 
 
-router.get('/validate',verifyTokenBiker);
+router.get('/validate',[verifyTokenBiker], getBiker);
 export default router;

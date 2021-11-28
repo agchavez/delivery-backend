@@ -27,8 +27,10 @@ export const checkEmailExistByker =async(email:string)=>{
 }
 
 export const checkEmailNotExistByker =async(email:string)=>{
+    console.log(email);
+    
     const clientExist = await  Biker.findOne({email});
-    if (clientExist) {
+    if (!clientExist) {
             throw new Error(`El correo: ${ email }, no está registrado`);
     } 
 }

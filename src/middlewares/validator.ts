@@ -70,23 +70,25 @@ export const verifyTokenBiker = async (req:Request, res:Response, next:Function)
         const user = await bikerModel.findById(uid);
         
         if(!user){
-            res.status(400).json({
+            return res.status(400).json({
                 ok:false,
                 msj:"El token no es valido - usuario no existe"
             })
         }
-        if(user?.aproved){
-            res.status(400).json({
+        if(!user?.aproved ){
+           return  res.status(400).json({
                 ok:false,
                 msj:"El token no es valido - usuario no aprovado"
             })
         }
         if(!user?.status){
-            res.status(400).json({
+            return res.status(400).json({
                 ok:false,
                 msj:"El token no es valido - usuario eliminado"
             })
         }
+        const newToken = JWT.sign({uid},process.env.JWT_KEY!);
+        req.body.token =  newToken;
         next();
         
     } catch (error) {
@@ -97,3 +99,26 @@ export const verifyTokenBiker = async (req:Request, res:Response, next:Function)
     }
 }
 
+//Validar si la imagen es valida 
+export const verifyImage = async (req:Request, res:Response, next:Function)=>{
+    try {
+        const {imgCard, imgLicense} = (req as any).files;
+    
+    
+    if (!imgCard || !imgLicense) {
+        return res.status(400).json({
+            ok:false,
+            msg:"No hay imagen en la peticion"
+        }); 
+    }
+    next();
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msg:"Error al subir la imagen",
+            error
+        });
+    }
+        
+    
+}
