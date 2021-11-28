@@ -10,7 +10,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
     const {password, ...clientData} = req.body;
     
     //Encriptar contraseña
-    const salt = bcryptjs.genSaltSync();
+    const salt = bcryptjs.genSaltSync(10);
     const passwordEncrip = bcryptjs.hashSync( password.toString(), salt );
     const code = Math.ceil(Math.random() * (99999 - 10000) + 10000);
     const client = new Client({...clientData, password: passwordEncrip, code:code});
@@ -235,6 +235,7 @@ export const putRestoreNewPassword = async (req:Request, res:Response)=>{
     try {
 
         //TODO: obtener usuario por id
+        
         
         //TODO: encriptar contraseña
     

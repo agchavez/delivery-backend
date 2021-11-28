@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import bcryptjs from 'bcryptjs';
 
 import Biker from '../models/biker.model';
+import bcryptjs from 'bcryptjs';
 import { sendEmailVerified } from "../helpers/mail.helper";
 import { generateJWT } from "../helpers/jwt.helper";
 
@@ -10,7 +10,7 @@ export const  registerBiker = async (req:Request, res:Response)=>{
     const {password, ...bikerData} = req.body;
     
     //Encriptar contraseña
-    const salt = bcryptjs.genSaltSync();
+    const salt = bcryptjs.genSaltSync(10);
     const passwordEncrip = bcryptjs.hashSync( password.toString(), salt );
     const code = Math.ceil(Math.random() * (99999 - 10000) + 10000);
     const biker = new Biker({...bikerData, password: passwordEncrip, code:code});
@@ -39,6 +39,7 @@ export const loginBiker = async(req:Request, res:Response)=>{
     const {email, password } = req.body
     try {
         const biker = await Biker.findOne({email:email.toLowerCase()});
+        
         if (!biker) {
             return res.status(400).json({
                 ok:false,
@@ -47,8 +48,10 @@ export const loginBiker = async(req:Request, res:Response)=>{
         }
         //Verificar si la contraseña coincide
         const validPassword = bcryptjs.compareSync(password, biker.password);
+        
         if(!validPassword){
             return res.status(400).json({
+                ok:false,
                 msg:"La contraseña es incorrecta"
             })
         }

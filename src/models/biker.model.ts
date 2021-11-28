@@ -45,8 +45,7 @@ const UserBiker = new Schema({
   },
   password: {
     type: String,
-    required: [true, 'La contraseña es obligatoria'],
-    lowercase: true
+    required: [true, 'La contraseña es obligatoria']
   },
   lastName: {
     type: String,
