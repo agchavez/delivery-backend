@@ -10,10 +10,14 @@ const Product= new Schema({
     lowercase: true
   },
   imgUrl: {
-    type: String,
-    required: [true, 'La imagen es obligatoria']
+    type: [
+        {
+        type: String,
+        required: [true, 'La url es obligatoria']
+      }, ],
+    require: [true, 'La imagen es obligatoria']
   },
-  describe: {
+  description: {
     type: String,
     required: [true, 'La descripcion es obligatoria']
   },
@@ -21,14 +25,33 @@ const Product= new Schema({
     type: Number,
     required: [true, 'El precio es obligatorio']
   },
+  status:{
+    type: Boolean,
+    default: true
+  },
   company:{
       type:Schema.Types.ObjectId, ref: 'Company',
       required:[true,'Id requerido']
   },
   category:{
     type:Schema.Types.ObjectId, ref: 'Category',
-    required:[true,'Id requerido']
-}
+    required:[true,'Id requerido'],
+},
+createdAt:{
+    type: Date,
+    default: Date.now
+},
+  complemts: [
+    {
+      name: {
+        type: String,
+      },
+      price:{
+        type: Number
+      }
+
+    }
+  ]
 });
 
 Product.methods.toJSON = function() {

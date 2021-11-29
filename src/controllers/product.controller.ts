@@ -10,6 +10,7 @@ import { ObjectId } from 'bson';
 import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import mongoose from 'mongoose';
+import { uploadImg } from '../helpers/cloudinary';
 
 //obtener productos de empresa
 export const getProductByCompany = async(req:Request,res:Response)=>{
@@ -168,19 +169,75 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
 
 
 export const postNewProduct = async(req:Request, res:Response)=>{
-    const {name, price,imgUrl,describe} = req.body;
-    const company=req.params.company;
-    const category = req.params.category
+    const {
+        name, description, price, company, category, complemts
+    } = req.body;
+    const imgs = req.files;
+    var complemtsArray = [] ;
+    if(complemts){
+        complemtsArray = JSON.parse(complemts)["complements"];
+    }
     try {
-        const product = new Product({name,price, imgUrl,describe,company,category});
-        
+        const imgUrl = [];
+        if (imgs !== undefined) {
+            for (const key in imgs) {
+                const url = await uploadImg(imgs[key], 'products');
+                imgUrl.push(url)
+            }
+        }
+        const product = new Product({name,price, description,company,category, imgUrl, complemts:complemtsArray});
         await product.save();
+        
         res.status(200).json({
             ok:true,
             product
         })
 
         
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            error
+        })
+    }
+}
+
+//Obtener todos los productos con paginacion 
+export const getAllProducts = async(req:Request, res:Response)=>{
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const createdAt = req.query.createdAt || 1;
+    const {status} = req.query || true;
+    console.log(status);
+    
+    const products = await Product.find({status})
+                                .skip((page-1)*limit)
+                                .limit(limit)
+                                .sort({createdAt:createdAt})
+                                .populate({path:'company',model:'Company'})
+                                .populate({path:'category',model:'Category'})
+    try {
+        res.status(200).json({
+            ok:true,
+            products
+        })
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            error
+        })
+    }
+}
+
+//Eliminar producto cambiando el valor de status a false
+export const deleteProduct = async(req:Request, res:Response)=>{
+    const {id} = req.params;
+    try {
+        const product = await Product.findByIdAndUpdate(id,{status:false},{new:true});
+        res.status(200).json({
+            ok:true,
+            msj:"Producto eliminado",
+        })
     } catch (error) {
         res.status(500).json({
             ok:false,

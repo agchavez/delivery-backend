@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { check } from "express-validator";
 
-import { validator, verifyTokenClient, verifyTokenBiker, verifyImage } from '../middlewares/validator';
+import { validator } from '../middlewares/validator';
 import { checkBikerById, checkEmailExistByker, checkEmailNotExistByker } from '../helpers/verified.helper';
 
 import { registerBiker, checkBiker, loginBiker, getAllBiker, putInfoImg, getBiker, isAproved, aproveBiker } from '../controllers/biker.controller';
+import { verifyImage } from '../middlewares/validatorImg';
+import { verifyTokenBiker } from '../middlewares/validatorJWT';
 
 
 const router =  Router();

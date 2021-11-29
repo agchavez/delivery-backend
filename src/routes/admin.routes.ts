@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { verifyTokenClient, validator, verifyTokenAdmmin } from '../middlewares/validator';
+import { validator } from '../middlewares/validator';
 import { getAllAdmin, registerAdmin, loginAdmin } from '../controllers/admin.controller';
 import { checkEmailExistAdmin } from '../helpers/verified.helper';
+import { verifyTokenAdmmin } from '../middlewares/validatorJWT';
 
 
 const router = Router();

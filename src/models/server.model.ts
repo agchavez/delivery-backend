@@ -9,7 +9,7 @@ import bikerRoute from '../routes/biker.routes';
 import adminRoute from '../routes/admin.routes';
 import categoryRoute from '../routes/category.routes';
 import companyRoute from '../routes/company.routes';
-import productRoute from '../routes/product.route'
+import productRoute from '../routes/product.routes'
 
 
 import { dbConection } from "../config/db.config";
