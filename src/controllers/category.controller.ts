@@ -37,6 +37,9 @@ export const getAllCategory = async(req:Request, res:Response)=>{
     }
 }
 
+//Funcion para retornar una categoria por id
+
+
 export const postNewCategory = async(req:Request, res:Response)=>{
     const {name, imgUrl} = req.body;
     try {

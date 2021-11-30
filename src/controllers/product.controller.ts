@@ -245,3 +245,8 @@ export const deleteProduct = async(req:Request, res:Response)=>{
         })
     }
 }
+
+//Actualizar ciertos campos de un producto, segun el id 
+export const updateProduct = async(req:Request, res:Response)=>{
+   
+}
