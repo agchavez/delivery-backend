@@ -212,7 +212,6 @@ export const getAllProducts = async(req:Request, res:Response)=>{
     const limit = Number(req.query.limit) || 10;
     const createdAt = req.query.createdAt || 1;
     const {status} = req.query || true;
-    console.log(status);
     
     const products = await Product.find({status})
                                 .skip((page-1)*limit)
