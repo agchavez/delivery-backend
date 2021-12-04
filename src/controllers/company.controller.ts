@@ -8,6 +8,35 @@ import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import { Mongoose } from 'mongoose';
 
+//obtener empresas
+export const getAllCompany = async(req:Request, res:Response)=>{
+    const {limit= 5,offset = 1, } = req.query;
+    console.log(limit);
+    
+    const query = {state: true};
+    const companies = await Promise.all([
+        Company.find(query)
+                .skip(Number(offset))
+                .limit(Number(limit)),
+        Company.countDocuments(query)
+    ])
+    try{
+        res.status(200).json({
+            ok:true,
+            companies
+        })
+    }
+
+    catch (error){
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        }) 
+    }
+    
+}
+
 //obtener una empresa
 export const getCompany = async(req:Request,res:Response)=>{
     
@@ -31,7 +60,7 @@ export const getCompany = async(req:Request,res:Response)=>{
 
 
     }
-//obtener empresas de una categoria
+//agregar empresas de una categoria
 export const putNewComapany = async(req:Request, res:Response)=>{
     const {idCompany} = req.body;
     const {idCategory} = req.params;

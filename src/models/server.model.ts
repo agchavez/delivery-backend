@@ -10,7 +10,13 @@ import adminRoute from '../routes/admin.routes';
 import categoryRoute from '../routes/category.routes';
 import companyRoute from '../routes/company.routes';
 import productRoute from '../routes/product.routes'
+
 import orderRoute from '../routes/order.routes'
+
+import ubicationRoute from '../routes/ubication.routes'
+import directionBuyerRoute from '../routes/directionBuyer.route'
+import cardRoute from '../routes/cardClient.router'
+
 
 
 import { dbConection } from "../config/db.config";
@@ -25,7 +31,10 @@ export default class Server{
         order: "/api/order",
         category:"/api/category",
         company : "/api/company",
-        product : "/api/product"
+        product : "/api/product",
+        ubication: "/api/ubication",
+        directionBuyer:"/api/direction-buyer",
+        card:"/api/card"
     }
 
     constructor(){
@@ -78,5 +87,9 @@ export default class Server{
         this.app.use(this.apiPath.company, companyRoute);
         this.app.use(this.apiPath.product, productRoute);
         this.app.use(this.apiPath.order, orderRoute);
+        this.app.use(this.apiPath.ubication, ubicationRoute);
+        this.app.use(this.apiPath.directionBuyer, directionBuyerRoute)
+        this.app.use(this.apiPath.card, cardRoute)
+ 
     }
 }

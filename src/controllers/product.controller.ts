@@ -39,8 +39,10 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
                 productos:{$push:{
                     name:"$name",
                     price:"$price",
-                    describe:"$describe",
-                    imgUrl:"$imgUrl"
+                    describe:"$description",
+                    imgUrl:"$imgUrl",
+                    complemts:"$complemts"
+
                 }} 
             },
         },
@@ -89,8 +91,9 @@ export const getProductByCat = async(req:Request,res:Response)=>{
                  productos:{$push:{
                      name:"$name",
                      price:"$price",
-                     describe:"$describe",
-                     imgUrl:"$imgUrl"
+                     describe:"$description",
+                     imgUrl:"$imgUrl",
+                     complemts:"$complemts"
                  }} 
              },
          },
@@ -145,6 +148,7 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
                     id:{$first:"$comp._id"},
                     name:{$first:"$comp.name"},
                     imgUrl:{$first:"$comp.imgUrl"},
+
                 }} 
             },
         },
