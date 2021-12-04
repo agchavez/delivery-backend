@@ -16,46 +16,48 @@ const OrderSchema = new Schema({
     
     user:{
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Client',
         required:[true,'Id requerido']
     },
     paid: {
         type: Boolean,
         default: false
     },
-    orderDetails:[
-        {
-            product:{
-                type: Schema.Types.ObjectId,
-                ref: 'Product',
-                required:[true,'Id requerido']
-            },
-            quantity:{
-                type: Number,
-                required:[true,'Cantidad requerida']
-            },
-            totalLine:{
-                type: Number,
-                required:[true,'Total requerido']
-
-            },
-            complements:[
-                {
-                    name:{
-                        type: String,
-                        required:[true,'Nombre requerido']
-                    },
-                    quantity:{
-                        type: Number,
-                        required:[true,'Cantidad requerida']
-                    },
-                    totalLine:{
-                        type: Number,
-                        required:[true,'Total requerido']
+    orderDetails:{
+        type:[
+            {
+                product:{
+                    type: Schema.Types.ObjectId,
+                    ref: 'Product',
+                    required:[true,'Id requerido']
+                },
+                quantity:{
+                    type: Number,
+                    required:[true,'Cantidad requerida']
+                },
+                totalLine:{
+                    type: Number,
+                    required:[true,'Total requerido']
+    
+                },
+                complements:[
+                    {
+                        name:{
+                            type: String,
+                            required:[true,'Nombre requerido']
+                        },
+                        quantity:{
+                            type: Number,
+                            required:[true,'Cantidad requerida']
+                        },
+                        totalLine:{
+                            type: Number,
+                            required:[true,'Total requerido']
+                        }
                     }
-                }
-            ]
-        }]
+                ]
+            }],
+        required:[true,'Detalles del pedido requeridos']}
 
 })
 
@@ -77,3 +79,6 @@ const TakeOrderSchema = new Schema({
 
 })
 
+
+export const Order = model('Order', OrderSchema)
+export const TakeOrder = model('TakeOrder', TakeOrderSchema)
