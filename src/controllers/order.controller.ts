@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
-import { Order, TakeOrder } from '../models/order.model';
+;
 import Company  from '../models/company.model';
+
+import { Order, TakeOrder  } from "../models/order.model";
+import Direction from "../models/directionBuyer.model";
+import { ObjectId } from 'bson';
 
 //Listar las ordenes segun el estado de la orden
 export const getListOrders = async (req: Request, res: Response) => {
@@ -17,11 +21,12 @@ export const getListOrders = async (req: Request, res: Response) => {
                                     populate: {
                                         path: 'company',
                                         model: 'Company',
-                                        select: 'name imgUrl'
+                                        select: 'name imgUrl location'
                                     },
                                     select: 'name compnay',
                                     model: 'Product'
                                 })
+      
         // orders.map(async (order:any, i:number) => {
         //     await order.orderDetails.map(async (orderDetail:any, j:number)=>{
         //         orderDetail.company = await Company.findById(orderDetail.product.company);
@@ -46,21 +51,30 @@ export const getListOrders = async (req: Request, res: Response) => {
 
 //Obtener orden por id
 export const getOrderById = async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = req.params.idOrder;
     try{
-        const order = await Order.findById(id)
+        const order:any = await Order.findById(id)
                                 .populate('user', 'firstName lastName')
                                 .populate({
                                     path: 'orderDetails.product',
                                     populate: {
                                         path: 'company',
                                         model: 'Company',
-                                        select: 'name imgUrl'
+                                        select: 'name imgUrl location'
                                     },
                                     select: 'name compnay',
                                     model: 'Product'
                                 })
-        return res.status(200).json(order);
+        if (!order) {
+          return res.status(400).json({
+            message: 'No se encontro la orden',
+
+          })
+        }
+        console.log(order.user);
+        
+        const direction = await Direction.findOne({idBuyer: order.user._id})
+        return res.status(200).json({order,direction });
     }catch(err){
         console.log(err);
         res.status(500).json({
@@ -69,6 +83,53 @@ export const getOrderById = async (req: Request, res: Response) => {
         });
     }
 }
+
+
+
+//listar ordenes de un cliente
+export const getOrderClient =async(req:Request,res:Response)=>{
+
+     const orders = await  Order.aggregate([
+
+        {
+            $lookup: {
+                from: "products",
+                localField: "orderDetails.product",
+                foreignField: "_id",
+                as: "prod"
+            },
+
+        },
+        {
+            $match: {
+                user: new ObjectId(req.params.idBuyer),
+            }
+        },
+        {
+            $project:{
+                _id:true,
+                status:true,
+                "prod.company":true
+            }
+        }
+    ])
+    try{
+            res.status(200).json({
+                ok:true,
+                orders
+               
+            }) 
+        }
+            catch (error){
+                res.status(500).json({
+                    ok:false,
+                    msj:"server error",
+                    error
+                }) 
+
+            }
+}
+
 
 
 //Agregar una orden segun el id del producto y el id del usuario
@@ -92,10 +153,18 @@ export const postAddOrder = async (req: Request, res: Response) => {
 }
 
 export const putOrderStatus = async (req: Request, res: Response) => {
-    const {id} = req.params;
-    const {status} = req.body;
+    const {  idOrder} = req.params;
+    const {uid,status} = req.body;
     try {
-        const order = await Order.findByIdAndUpdate(id, {status}, {new: true});
+        
+        if (status === 'accepted') {
+            const takeOrder = new TakeOrder({
+                order : idOrder,
+                biker : uid
+            })
+            await takeOrder.save();
+        }
+        const order = await Order.findByIdAndUpdate(idOrder, {status}, {new: true});
         res.status(200).json({
             ok:true,
             order

@@ -86,10 +86,10 @@ export const getAllClient = async(req:Request, res:Response)=>{
     const {limit= 5,offset = 1, verified} = req.query;    
     const query = {state: true, verified: Boolean(verified)};
     const clients = await Promise.all([
-        Client.find(query)
+        Client.find()
                 .skip(Number(offset))
                 .limit(Number(limit)),
-        Client.countDocuments(query)
+        Client.countDocuments()
     ])
     res.status(200).json({
         ok:true,
@@ -173,8 +173,6 @@ export const postComment = async (req:Request, res:Response)=>{
         }) 
 
     }
-   
-
 }
 
 export const postRestoreByEmail = async (req:Request, res:Response)=>{

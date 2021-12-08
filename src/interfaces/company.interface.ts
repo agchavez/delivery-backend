@@ -4,6 +4,7 @@ export interface CompanyInterface extends  Document{
     phone: string;
     imgUrl: string;
     bannerUrl:string;
+    location:object;
     _id:ObjectId;
     categories:any
 

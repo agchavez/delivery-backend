@@ -36,7 +36,7 @@ const Administrator = new Schema({
 });
 
 Administrator.methods.toJSON = function() {
-    const { __v, password,_id,dateCreate, ...admin  } = this.toObject();
+    const { __v, password, ...admin  } = this.toObject();
     return admin;
   }
   
