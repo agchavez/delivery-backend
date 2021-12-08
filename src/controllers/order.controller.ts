@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Order, TakeOrder  } from "../models/order.model";
+import { ObjectId } from 'bson';
 
 //Listar las ordenes segun el estado de la orden
 export const getListOrders = async (req: Request, res: Response) => {
@@ -24,6 +25,52 @@ export const getListOrders = async (req: Request, res: Response) => {
         });
     }
 }
+
+//listar ordenes de un cliente
+export const getOrderClient =async(req:Request,res:Response)=>{
+
+     const orders = await  Order.aggregate([
+
+        {
+            $lookup: {
+                from: "products",
+                localField: "orderDetails.product",
+                foreignField: "_id",
+                as: "prod"
+            },
+
+        },
+        {
+            $match: {
+                user: new ObjectId(req.params.idBuyer),
+            }
+        },
+        {
+            $project:{
+                _id:true,
+                status:true,
+                "prod.company":true
+            }
+        }
+    ])
+    try{
+            res.status(200).json({
+                ok:true,
+                orders
+               
+            }) 
+        }
+            catch (error){
+                res.status(500).json({
+                    ok:false,
+                    msj:"server error",
+                    error
+                }) 
+
+            }
+}
+
+
 
 //Agregar una orden segun el id del producto y el id del usuario
 export const postAddOrder = async (req: Request, res: Response) => {

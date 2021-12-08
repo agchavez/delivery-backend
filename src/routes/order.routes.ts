@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getListOrders, postAddOrder, putOrderStatus } from '../controllers/order.controller';
+import { getListOrders, postAddOrder, putOrderStatus,getOrderClient } from '../controllers/order.controller';
 import { check } from 'express-validator';
 import { validator } from '../middlewares/validator';
 import { verifyTokenClient } from '../middlewares/validatorJWT';
@@ -27,5 +27,10 @@ router.put("/:id", [
     check('status').isIn(['pending', 'delivered', 'cancelled']),
     validator,
 ], putOrderStatus);
+
+
+//Obtener pedidos de un cliente
+router.get("/buyer/:idBuyer",[],getOrderClient)
+
 
 export default router;

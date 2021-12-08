@@ -37,6 +37,7 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
                 idCat:{$first:"$cat._id"},
 
                 productos:{$push:{
+                    product:"$_id",
                     name:"$name",
                     price:"$price",
                     describe:"$description",
@@ -89,6 +90,7 @@ export const getProductByCat = async(req:Request,res:Response)=>{
              $group: { 
                  _id: {$first:"$cat.name"},
                  productos:{$push:{
+                     product:"$_id",
                      name:"$name",
                      price:"$price",
                      describe:"$description",

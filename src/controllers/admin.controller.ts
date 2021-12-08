@@ -85,7 +85,7 @@ export const getAllAdmin = async(req:Request, res:Response)=>{
         Admin.countDocuments(query)
     ])
     try{
-    res.status(400).json({
+    res.status(200).json({
         ok:true,
         admins
     })

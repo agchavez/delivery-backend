@@ -17,7 +17,7 @@ router.get('/login', [
 
 //Obtener todo los usuarios administradores
 router.get('/all', [
-    verifyTokenAdmmin
+    //verifyTokenAdmmin
 ], getAllAdmin);
 
 //TODO: Obtener unuario administrador por id

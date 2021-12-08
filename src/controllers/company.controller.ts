@@ -7,10 +7,11 @@ import Category from '../models/category.model';
 import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import { Mongoose } from 'mongoose';
+import { uploadImg, updateImage } from '../helpers/cloudinary';
 
 //obtener empresas
 export const getAllCompany = async(req:Request, res:Response)=>{
-    const {limit= 5,offset = 1, } = req.query;
+    const {limit= 4,offset = 0, } = req.query;
     console.log(limit);
     
     const query = {state: true};
@@ -60,6 +61,23 @@ export const getCompany = async(req:Request,res:Response)=>{
 
 
     }
+//Obtener nombre de empresa
+
+export const getCompanyName = async (req: Request, res: Response) => {
+  
+    try {
+        //Obtener el logo de la empresa segun el producto
+        const company = await Company.findById(req.params.idCompany,{name:true})
+        res.status(200).json(company);
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).json({
+            message: 'Error al listar la empresa',
+            error
+        });
+    }
+}
 //agregar empresas de una categoria
 export const putNewComapany = async(req:Request, res:Response)=>{
     const {idCompany} = req.body;
@@ -89,12 +107,25 @@ export const putNewComapany = async(req:Request, res:Response)=>{
         })
     }
 }
-
+interface MulterRequest extends Request {
+    files: any;
+}
 //agregar nueva empresa
 export const postNewCompany = async(req:Request, res:Response)=>{
-    const {phone, name, imgUrl, bannerUrl} = req.body;
+    const {imgLogoFile, imgBannerFile} = (req as MulterRequest ).files;
+    var imgUrl:string;
+    var bannerUrl:string;
+    const {phone, name,lat,long,description} = req.body;
+    const location={
+        lat:lat,
+        long:long,
+        description:description
+    }
     try{
-       const company = new Company({phone, name, imgUrl, bannerUrl});
+         //Subir imagen de la imgCard y  imgLicense a Cloudinary
+         imgUrl = await uploadImg(imgLogoFile,  'company/logo');
+         bannerUrl = await uploadImg(imgBannerFile, 'company/banner')
+       const company = new Company({phone, name, imgUrl, bannerUrl,location});
        await company.save();
        return res.status(201).json({
            ok:true,

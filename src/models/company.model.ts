@@ -16,12 +16,14 @@ const UserCompany = new Schema({
     lowercase: true
   },
   imgUrl: {
-    type: String,
-    required: [true, 'La imagen es obligatoria']
+    type:String,
   },
   bannerUrl: {
-    type: String,
-    required: [true, 'La imagen es obligatoria']
+    type:String
+  },
+  location: {
+    type: Object,
+    required: [true, 'La location es obligatoria']
   }
 });
 
