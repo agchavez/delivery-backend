@@ -23,7 +23,7 @@ router.delete('/:id',[
     check('id', 'El id no es valido').isMongoId(),
     check('id').custom(checkProductExist),
     validator,
-    verifyTokenAdmmin
+    //verifyTokenAdmmin
 ], deleteProduct)
 
 //obtener empresa de categoria
@@ -41,7 +41,7 @@ router.post('/', [
     check('category', 'El id de la categoria es obligatorio').isMongoId(),
     validator,
     verifyImages,
-    verifyTokenAdmmin,
+   // verifyTokenAdmmin,
 ], postNewProduct)
 
 //obtener productos de empresa

@@ -8,6 +8,7 @@ import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import { Mongoose } from 'mongoose';
 import { uploadImg, updateImage } from '../helpers/cloudinary';
+import { ObjectId } from 'bson';
 
 //obtener empresas
 export const getAllCompany = async(req:Request, res:Response)=>{
@@ -122,7 +123,7 @@ export const postNewCompany = async(req:Request, res:Response)=>{
         description:description
     }
     try{
-         //Subir imagen de la imgCard y  imgLicense a Cloudinary
+         //Subir imagen a Cloudinary
          imgUrl = await uploadImg(imgLogoFile,  'company/logo');
          bannerUrl = await uploadImg(imgBannerFile, 'company/banner')
        const company = new Company({phone, name, imgUrl, bannerUrl,location});
@@ -130,6 +131,26 @@ export const postNewCompany = async(req:Request, res:Response)=>{
        return res.status(201).json({
            ok:true,
            company
+       })
+    }catch  (error){
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })
+    }
+}
+
+//eliminar una empresa
+export const deleteCompany = async(req:Request, res:Response)=>{
+
+    const idCompany = new ObjectId(req.params.idCompany);
+    try{
+       const response =  await Company.findByIdAndRemove(idCompany);
+       //await company.save();
+       return res.status(201).json({
+           ok:true,
+           response
        })
     }catch  (error){
         res.status(500).json({

@@ -3,7 +3,7 @@ import { check } from 'express-validator';
 import { validator } from '../middlewares/validator';
 import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified, postComment } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById, checkEmailNotExistByker, checkNotEmailExistClient } from '../helpers/verified.helper';
-import { postNewCompany, getCompany, getAllCompany,getCompanyName } from '../controllers/company.controller';
+import { postNewCompany, getCompany, getAllCompany,getCompanyName, deleteCompany } from '../controllers/company.controller';
 import { verifyTokenAdmmin } from '../middlewares/validatorJWT';
 
 const router = Router();
@@ -23,5 +23,8 @@ router.get('/:idCompany',getCompany)
 
 //obtener nombre de una empresa
 router.get("/name/:idCompany",getCompanyName)
+
+//Eliminar una empresa
+router.delete("/delete/:idCompany",deleteCompany)
 
 export default router;
