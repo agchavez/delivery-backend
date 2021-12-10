@@ -66,9 +66,11 @@ export const loginBiker = async(req:Request, res:Response)=>{
         }
         
         if( biker.info.imgCard === undefined || biker.info.imgLicense === undefined){
+            
             return res.status(400).json({
                 ok:false,
                 verified: true,
+                aproved: null,
                 msj:"Falta informacion",
                 
             })
