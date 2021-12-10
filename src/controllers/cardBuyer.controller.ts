@@ -37,15 +37,35 @@ export const getAllCards = async(req:Request,res:Response)=>{
              }}
 
 
-//agregar nueva empresa
+//agregar nueva tarjeta
 export const postNewCard = async(req:Request, res:Response)=>{
-    const {number, expires, cvv, buyer} = req.body;
+    const {number, expires, cvv, buyer,titular} = req.body;
     try{
-       const card = new Card({number, expires, cvv, buyer});
+       const card = new Card({number, expires, cvv, buyer,titular});
        await card.save();
        return res.status(201).json({
            ok:true,
            card
+       })
+    }catch  (error){
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })
+    }
+}
+
+//eliminar card
+export const deleteCard = async(req:Request, res:Response)=>{
+
+    const idCard = new ObjectId(req.params.idCard);
+    try{
+       const response =  await Card.findByIdAndRemove(idCard);
+       //await company.save();
+       return res.status(201).json({
+           ok:true,
+           response
        })
     }catch  (error){
         res.status(500).json({
