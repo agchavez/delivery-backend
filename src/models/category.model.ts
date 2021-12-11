@@ -12,11 +12,8 @@ const CategoryData = new Schema({
   },
   imgUrl: {
     type: String,
-    required: [true, 'El correo es obligatorio']
-  },
-  companies:[
-   {type: Schema.Types.ObjectId, ref: 'Company'}
-  ]
+    required: [true, 'La imagen es obligatoria']
+  }
   
 });
 

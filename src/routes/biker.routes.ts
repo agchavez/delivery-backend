@@ -41,10 +41,12 @@ router.put('/info',[
     validator
 ], putInfoImg)
 
-//TODO: Obtener todo los usuarios motorista
 
 //TODO: Obtener unuario motorista por id
 router.get('/by/:id', [], ()=>{});
+
+//TODO: Obtener todo los usuarios motorista
+
 router.get('/all',[], getAllBiker);
 //TODO: Eliminar usuario motorista
 router.delete('/delete/:id',[],()=>{})

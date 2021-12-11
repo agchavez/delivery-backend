@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { getAllCards,postNewCard } from "../controllers/cardBuyer.controller"
+import { deleteCard, getAllCards,postNewCard } from "../controllers/cardBuyer.controller"
 import { checkEmailExistAdmin } from '../helpers/verified.helper';
 
 
@@ -12,11 +12,13 @@ const router = Router();
 //  ], getAllCategory)
 
 
-//obtener categorias
+//obtener cards
 router.get('/all/:idBuyer',[], getAllCards);
 
-//Guardar nueva categoria
+//Guardar nueva card
 router.post('/',[], postNewCard)
 
+//Eliminar una card
+router.delete("/delete/:idCard",deleteCard)
 
 export default router;

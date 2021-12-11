@@ -29,6 +29,7 @@ export const getProductByCompany = async(req:Request,res:Response)=>{
         {
             $match: {
                 company: new ObjectId(req.params.idCompany),
+                status:true
             }
         },
         {
@@ -83,7 +84,8 @@ export const getProductByCat = async(req:Request,res:Response)=>{
          {
              $match: {
                  company: new ObjectId(req.params.idCompany),
-                 category:new ObjectId(req.params.idCate)
+                 category:new ObjectId(req.params.idCate),
+                 status:true
              }
          },
          {
@@ -141,15 +143,19 @@ export const getCompanyByCat= async(req:Request,res:Response)=>{
         {
             $match: {
                 category: new ObjectId(req.params.idCat),
+                
+
             }
         },
         {
             $group: { 
                 _id: {$first:"$cate.name"},
+                
                 empresas:{$addToSet:{
                     id:{$first:"$comp._id"},
                     name:{$first:"$comp.name"},
                     imgUrl:{$first:"$comp.imgUrl"},
+                    
 
                 }} 
             },

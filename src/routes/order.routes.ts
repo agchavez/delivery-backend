@@ -30,6 +30,12 @@ router.put("/:idOrder", [
     
 ], putOrderStatus);
 
+router.put("/:idOrder/admin", [
+    check('idOrder', 'El id no es valido').isMongoId(),
+    validator,
+    
+], putOrderStatus);
+
 router.get( "/:idOrder", [], getOrderById)
 
 

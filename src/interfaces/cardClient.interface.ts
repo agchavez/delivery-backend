@@ -4,5 +4,6 @@ export interface CardClientInterface extends  Document{
     _id: ObjectId;
     expires: string;
     cvv:number;
-    buyer:ObjectId
+    buyer:ObjectId,
+    titular:string
   }

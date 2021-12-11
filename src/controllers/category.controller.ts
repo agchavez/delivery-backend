@@ -6,6 +6,7 @@ import Company from '../models/company.model'
 import { generateJWT } from '../helpers/jwt.helper';
 import bcryptjs from 'bcryptjs';
 import { ObjectId } from 'bson';
+import { uploadImg } from '../helpers/cloudinary';
 
 
 
@@ -39,10 +40,17 @@ export const getAllCategory = async(req:Request, res:Response)=>{
 
 //Funcion para retornar una categoria por id
 
-
+interface MulterRequest extends Request {
+    files: any;
+}
+//agregar una categoria
 export const postNewCategory = async(req:Request, res:Response)=>{
-    const {name, imgUrl} = req.body;
+    const {name} = req.body;
+    const {imgFile} = (req as MulterRequest ).files;
+    var imgUrl:string;
     try {
+        imgUrl = await uploadImg(imgFile,  'Categories');
+
         const category = new Category({name, imgUrl});
         await category.save();
 

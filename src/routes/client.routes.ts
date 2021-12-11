@@ -31,6 +31,7 @@ router.put('/check/code',[
     validator,
 ], checkClient)
 
+router.get('/:id',getClientById)
 router.get('/all',[
 ], getAllClient)
 

@@ -18,6 +18,10 @@ const CardData = new Schema({
     type: Number,
     required: [true, 'el codigo es obligatorio']
   },
+  titular: {
+    type: String,
+    required: [true, 'el titular es obligatorio']
+  },
   buyer:
    {type: Schema.Types.ObjectId, ref: 'Client'}
   
