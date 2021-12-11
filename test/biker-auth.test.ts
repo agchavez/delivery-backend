@@ -16,8 +16,7 @@ describe('Register biker', () => {
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123",
-            "identity":15465699
+            "password":"test123"
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -31,20 +30,18 @@ describe('Register biker', () => {
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123",
-            "identity":15465699
+            "password":"test123"
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
         });
     });
-    
 describe('Login biker', () => {
     test('Login biker verified email', async() => {
-            await app.get('/api/biker/login')
+            await app.post('/api/biker/login')
             .send({
-                "email":"test@test.com",
+                "email":"test2@test.com",
                 "password":"test123"
             })
             .set('Accept', 'application/json')
@@ -53,7 +50,7 @@ describe('Login biker', () => {
             });
 
     test('Login biker successful', async() => {
-        await app.get('/api/biker/login')
+        await app.post('/api/biker/login')
         .send({
             "email":"atest@test.com",
             "password":"test123"

@@ -1,6 +1,10 @@
 import { model, ObjectId } from "mongoose";
 import mongoose from "mongoose";
 
+interface InfoByker extends Document{
+  imgLicense: string,
+  imgCard  : string,
+}
 export interface BikerInterface extends Document{
     firstName:string;
     email:string;
@@ -16,6 +20,7 @@ export interface BikerInterface extends Document{
     _id:ObjectId;
     code: string;
     dateCreate: Date;
+    info: InfoByker
 }
 
 
@@ -45,8 +50,7 @@ const UserBiker = new Schema({
   },
   password: {
     type: String,
-    required: [true, 'La contraseña es obligatoria'],
-    lowercase: true
+    required: [true, 'La contraseña es obligatoria']
   },
   lastName: {
     type: String,
@@ -73,6 +77,14 @@ const UserBiker = new Schema({
   dateCreate:{
       type: Date,
       default:  Date.now()
+  },
+  info: {
+    imgLicense: {
+      type: String
+    },
+    imgCard: {
+      type: String
+    }
   }
 });
 
@@ -81,5 +93,4 @@ UserBiker.methods.toJSON = function() {
     return biker;
   }
   
-  
-  export default model<BikerInterface>('Biker', UserBiker);
+export default model<BikerInterface>('Biker', UserBiker);

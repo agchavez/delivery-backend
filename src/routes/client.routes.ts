@@ -1,8 +1,9 @@
 import { Router,Response, Request} from 'express';
 import { check } from 'express-validator';
-import { validator, verifyTokenClient, verifyTokenAdmmin } from '../middlewares/validator';
+import { validator } from '../middlewares/validator';
 import { loginClient, registerClient, checkClient, getAllClient, getClientById, postRestoreByEmail, putRestoreNewPassword, getRestoreCheckCode, verified, postComment } from '../controllers/client.controller';
 import { checkEmailExist, checkClientById, checkEmailNotExistByker, checkNotEmailExistClient } from '../helpers/verified.helper';
+import { verifyTokenAdmmin, verifyTokenClient } from '../middlewares/validatorJWT';
 
 const router = Router();
 
@@ -31,7 +32,6 @@ router.put('/check/code',[
 ], checkClient)
 
 router.get('/all',[
-    verifyTokenAdmmin
 ], getAllClient)
 
 router.post('/restore',[

@@ -1,10 +1,22 @@
 import  express, {Application} from "express";
+import fileUpload, { UploadedFile  } from "express-fileupload";
 import cors from "cors";
 import path from 'path';
+
 
 import clientRoute from '../routes/client.routes';
 import bikerRoute from '../routes/biker.routes';
 import adminRoute from '../routes/admin.routes';
+import categoryRoute from '../routes/category.routes';
+import companyRoute from '../routes/company.routes';
+import productRoute from '../routes/product.routes'
+
+import orderRoute from '../routes/order.routes'
+
+import ubicationRoute from '../routes/ubication.routes'
+import directionBuyerRoute from '../routes/directionBuyer.route'
+import cardRoute from '../routes/cardClient.router'
+
 
 
 import { dbConection } from "../config/db.config";
@@ -16,6 +28,13 @@ export default class Server{
         biker: "/api/biker",
         client: "/api/client",
         admin: "/api/admin",
+        order: "/api/order",
+        category:"/api/category",
+        company : "/api/company",
+        product : "/api/product",
+        ubication: "/api/ubication",
+        directionBuyer:"/api/direction-buyer",
+        card:"/api/card"
     }
 
     constructor(){
@@ -40,6 +59,11 @@ export default class Server{
 
         this.app.use(express.json());
 
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir:'/tmp/',
+          }));
+
         //Rutas publicas
         this.app.use(express.static('public'));
     }
@@ -59,7 +83,13 @@ export default class Server{
         this.app.use(this.apiPath.client, clientRoute);
         this.app.use(this.apiPath.biker, bikerRoute);
         this.app.use(this.apiPath.admin, adminRoute);
-        
-        
+        this.app.use(this.apiPath.category, categoryRoute);     
+        this.app.use(this.apiPath.company, companyRoute);
+        this.app.use(this.apiPath.product, productRoute);
+        this.app.use(this.apiPath.order, orderRoute);
+        this.app.use(this.apiPath.ubication, ubicationRoute);
+        this.app.use(this.apiPath.directionBuyer, directionBuyerRoute)
+        this.app.use(this.apiPath.card, cardRoute)
+ 
     }
 }
