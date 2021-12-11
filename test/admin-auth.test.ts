@@ -61,4 +61,3 @@ describe('Login admin', () => {
         .expect(200)
         });
 });
-    
