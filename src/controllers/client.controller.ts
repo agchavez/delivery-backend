@@ -85,17 +85,29 @@ export const loginClient = async(req:Request, res:Response)=>{
 export const getAllClient = async(req:Request, res:Response)=>{
     const {limit= 5,offset = 1, verified} = req.query;    
     const query = {state: true, verified: Boolean(verified)};
-    const clients = await 
-        Client.find()
-                .skip(Number(offset))
-                .limit(Number(limit))
+    
+    try {
         
-        const count = await Client.countDocuments();
-    res.status(200).json({
-        ok:true,
-        clients,
-        count
-    })
+        const clients = await 
+            Client.find(query)
+                    .skip(Number(offset))
+                    .limit(Number(limit))
+            
+            const count = await Client.countDocuments(query);
+        res.status(200).json({
+            ok:true,
+            clients,
+            count
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msj:"server error",
+            error
+        })  
+        
+    }
 
 }
 export const getClientById = async(req:Request, res:Response)=>{

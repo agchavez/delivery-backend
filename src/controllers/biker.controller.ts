@@ -241,7 +241,7 @@ export const checkBiker = async(req:Request, res:Response)=>{
 }
 
 export const getAllBiker = async(req:Request, res:Response)=>{
-    const {limit= 5,offset = 1, aproved=1} = req.query;
+    const {limit= 5,offset = 0, aproved=1} = req.query;
     let aprovedStatus = true;
     if (aproved === '0') {
         aprovedStatus = false;
@@ -249,7 +249,7 @@ export const getAllBiker = async(req:Request, res:Response)=>{
     
     const query = {state: true, aproved:aprovedStatus};
     const bikers = await 
-        Biker.find(query)
+        Biker.find({state: true, aproved:aprovedStatus})
                 .skip(Number(offset))
                 .limit(Number(limit))
         

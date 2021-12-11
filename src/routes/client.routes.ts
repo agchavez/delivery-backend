@@ -31,9 +31,16 @@ router.put('/check/code',[
     validator,
 ], checkClient)
 
-router.get('/:id',getClientById)
 router.get('/all',[
 ], getAllClient)
+
+
+router.get('/:id', [
+    check('id', "El id es obligatorio").isMongoId(),
+    validator,
+],getClientById)
+
+
 
 router.post('/restore',[
     check('email', 'El correo es obligatorio').isEmail(),
