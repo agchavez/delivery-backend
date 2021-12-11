@@ -1,21 +1,13 @@
 import { model, ObjectId } from "mongoose";
 import mongoose from "mongoose";
-
-export interface BikerInterface extends Document{
-    firstName:string;
-    email:string;
-    password:string;
-    lastName:string;
-    status: boolean;
-    _id:ObjectId;
-    dateCreate: Date;
-}
+import { AdminInterface } from "../interfaces/admin.interface";
 
 const Schema = mongoose.Schema;
 const Administrator = new Schema({
   email: {
     type: String,
-    required: true
+    required: true,
+    unique:true,
   },
   password: {
     type: String,
@@ -29,9 +21,13 @@ const Administrator = new Schema({
     type: String,
     required: true
   },
+  phone: {
+    type: Number,
+    required: true
+  },
   status: {
     type: Boolean,
-    required: true
+    default: true
   },
   dateCreate:{
     type: Date,
@@ -40,9 +36,9 @@ const Administrator = new Schema({
 });
 
 Administrator.methods.toJSON = function() {
-    const { __v, password,_id,dateCreate, ...biker  } = this.toObject();
-    return biker;
+    const { __v, password, ...admin  } = this.toObject();
+    return admin;
   }
   
   
-  export default model<BikerInterface>('Biker', Administrator);
+  export default model<AdminInterface>('Admin', Administrator);

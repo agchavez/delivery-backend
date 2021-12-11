@@ -89,9 +89,8 @@ const UserBiker = new Schema({
 });
 
 UserBiker.methods.toJSON = function() {
-    const { __v, password,_id,dateCreate,code, ...biker  } = this.toObject();
+    const { __v, password,dateCreate,code, ...biker  } = this.toObject();
     return biker;
   }
   
-  
-  export default model<BikerInterface>('Biker', UserBiker);
+export default model<BikerInterface>('Biker', UserBiker);

@@ -16,8 +16,7 @@ describe('Register biker', () => {
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123",
-            "identity":15465699
+            "password":"test123"
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -31,8 +30,7 @@ describe('Register biker', () => {
             "firstName":"Angel",
             "lastName":"Chavez",
             "phone":31998850,
-            "password":"test123",
-            "identity":15465699
+            "password":"test123"
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
