@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import Client from '../models/client.model';
 import Comment from '../models/commentMsj.model';
 import { generateJWT } from '../helpers/jwt.helper';
@@ -10,7 +9,7 @@ export const  registerClient = async (req:Request, res:Response)=>{
     const {password, ...clientData} = req.body;
     
     //Encriptar contraseña
-    const salt = bcryptjs.genSaltSync();
+    const salt = bcryptjs.genSaltSync(10);
     const passwordEncrip = bcryptjs.hashSync( password.toString(), salt );
     const code = Math.ceil(Math.random() * (99999 - 10000) + 10000);
     const client = new Client({...clientData, password: passwordEncrip, code:code});
@@ -86,15 +85,16 @@ export const loginClient = async(req:Request, res:Response)=>{
 export const getAllClient = async(req:Request, res:Response)=>{
     const {limit= 5,offset = 1, verified} = req.query;    
     const query = {state: true, verified: Boolean(verified)};
-    const clients = await Promise.all([
-        Client.find(query)
+    const clients = await 
+        Client.find()
                 .skip(Number(offset))
-                .limit(Number(limit)),
-        Client.countDocuments(query)
-    ])
+                .limit(Number(limit))
+        
+        const count = await Client.countDocuments();
     res.status(200).json({
         ok:true,
-        clients
+        clients,
+        count
     })
 
 }
@@ -174,8 +174,6 @@ export const postComment = async (req:Request, res:Response)=>{
         }) 
 
     }
-   
-
 }
 
 export const postRestoreByEmail = async (req:Request, res:Response)=>{
@@ -235,6 +233,7 @@ export const putRestoreNewPassword = async (req:Request, res:Response)=>{
     try {
 
         //TODO: obtener usuario por id
+        
         
         //TODO: encriptar contraseña
     
