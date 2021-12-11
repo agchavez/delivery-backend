@@ -32,7 +32,6 @@ router.put('/check/code',[
 ], checkClient)
 
 router.get('/all',[
-    verifyTokenAdmmin
 ], getAllClient)
 
 router.post('/restore',[

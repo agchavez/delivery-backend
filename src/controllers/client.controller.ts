@@ -85,15 +85,16 @@ export const loginClient = async(req:Request, res:Response)=>{
 export const getAllClient = async(req:Request, res:Response)=>{
     const {limit= 5,offset = 1, verified} = req.query;    
     const query = {state: true, verified: Boolean(verified)};
-    const clients = await Promise.all([
+    const clients = await 
         Client.find()
                 .skip(Number(offset))
-                .limit(Number(limit)),
-        Client.countDocuments()
-    ])
+                .limit(Number(limit))
+        
+        const count = await Client.countDocuments();
     res.status(200).json({
         ok:true,
-        clients
+        clients,
+        count
     })
 
 }

@@ -9,7 +9,7 @@ import { verifyTokenAdmmin } from '../middlewares/validatorJWT';
 const router = Router();
 
 //TODO: Login de usuarios adminstradores por correo y contraseña
-router.get('/login', [
+router.post('/login', [
     check('email', 'El correo es requerido').isEmail(),
     check('password', 'La contraseña es requerida').notEmpty(),
     validator

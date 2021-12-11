@@ -54,8 +54,7 @@ router.put('/update/:id',[],()=>{})
 
 //TODO: Validar cuenta de motorista por el di 
 router.put('/aproved/:id',[
-    check('id', 'El id es requerido').isMongoId(),
-    check('id').custom(checkBikerById),
+    check('id', 'El id es requerido').isEmail(),
     validator
 ],aproveBiker)
 

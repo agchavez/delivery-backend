@@ -82,11 +82,13 @@ export const getAllAdmin = async(req:Request, res:Response)=>{
         Admin.find(query)
                 .skip(Number(offset))
                 .limit(Number(limit)),
-        Admin.countDocuments(query)
+      
     ])
+    const count = await   Admin.countDocuments(query)
     try{
     res.status(200).json({
         ok:true,
+        count,
         admins
     })
 }

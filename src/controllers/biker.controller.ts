@@ -153,13 +153,15 @@ export const putInfoImg = async(req:Request, res:Response)=>{
 export const aproveBiker = async(req:Request, res:Response)=>{
     const {id} = req.params;
     try {
-        const biker = await Biker.findByIdAndUpdate(id, {aproved:true});
+        const biker = await Biker.findOne({email:id});
         if(!biker){
             return res.status(400).json({
                 ok:false,
                 msj:"El motorista no existe"
             })
         }
+        biker.aproved = true;
+        await biker.save();
         return res.status(200).json({
             ok:true,
             msg:"Motorista aprobado"
@@ -239,19 +241,23 @@ export const checkBiker = async(req:Request, res:Response)=>{
 }
 
 export const getAllBiker = async(req:Request, res:Response)=>{
-    const {limit= 5,offset = 1, } = req.query;
-    console.log(limit);
+    const {limit= 5,offset = 1, aproved=1} = req.query;
+    let aprovedStatus = true;
+    if (aproved === '0') {
+        aprovedStatus = false;
+    }
     
-    const query = {state: true};
-    const bikers = await Promise.all([
+    const query = {state: true, aproved:aprovedStatus};
+    const bikers = await 
         Biker.find(query)
                 .skip(Number(offset))
-                .limit(Number(limit)),
-        Biker.countDocuments(query)
-    ])
+                .limit(Number(limit))
+        
+    const count = await Biker.countDocuments(query);
     try{
         res.status(200).json({
             ok:true,
+            count: Math.round(count/Number(limit)),
             bikers
         })
     }
