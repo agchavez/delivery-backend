@@ -12,7 +12,7 @@ export const sendEmailVerified = async(name:string, email:string, code:number)=>
         pass: process.env.PASSMAIL, // generated ethereal password
       },
   });
-  await transporter.sendMail({
+  const respSend = await transporter.sendMail({
 
     from: '"Pidelow" <pidelow@gmail.com>',
     to: email, // list of receivers
@@ -139,4 +139,5 @@ export const sendEmailVerified = async(name:string, email:string, code:number)=>
             </html>
     `, // html body
   });
+  console.log("[INFO] Message verified sent to: " + email);
 }
